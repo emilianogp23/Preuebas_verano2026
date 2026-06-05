@@ -15,8 +15,8 @@ WorldInfo {
   title "Crazyflie"
 }
 Viewpoint {
-  orientation 0.28944861364548563 -0.4250813403507268 -0.8576277480027894 4.791901803959302
-  position -0.1394140674386002 -5.566785099839089 5.727261006347259
+  orientation -0.23463869484457636 0.6902380831496261 0.6844823383050608 1.0937142515291505
+  position -3.0861861913105795 -2.152510029221638 4.7308531497265305
   follow "Crazyflie"
 }
 TexturedBackground {
@@ -24,8 +24,10 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Crazyflie {
-  translation 1.3195328661860852e-17 1.0599352364628012e-16 0.06498532234148742
-  rotation 0 0 1 1.5770703061004252
+  hidden linearVelocity_0 -7.115034749707648e-18 3.0129491076624e-18 1.0710484503562165e-06
+  hidden angularVelocity_0 1.4952609189084477e-19 -3.952899321057405e-16 -3.8727072288715236e-17
+  translation 1.3554882956326524e-17 1.0706365249504246e-16 0.06499005611416643
+  rotation -4.4098887619940786e-17 1.9147966056642445e-17 1 1.5770703061004254
   controller "crazyfliepy"
 }
 RectangleArena {
@@ -40,13 +42,30 @@ Solid {
     Shape {
       appearance PBRAppearance {
         baseColor 0.6 0.8 1
+        roughness 1
       }
       geometry Box {
-        size 0.3 0.3 1
+        size 0.4 0.4 1
       }
     }
   ]
 }
 SquareManhole {
   size 0.6 0.6 0.1
+}
+Solid {
+  translation 1 1 1.2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0
+        roughness 1
+      }
+      geometry Cylinder {
+        height 0.4
+        radius 0.12
+      }
+    }
+  ]
+  name "solid(1)"
 }
