@@ -1,0 +1,52 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/bitcraze/crazyflie/protos/Crazyflie.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/factory/manhole/protos/SquareManhole.proto"
+
+WorldInfo {
+  info [
+    "Bitcraze's Crazyflie drone."
+    "This simulation allows you to pilot the drone with your keyboard."
+  ]
+  title "Crazyflie"
+}
+Viewpoint {
+  orientation 0.28944861364548563 -0.4250813403507268 -0.8576277480027894 4.791901803959302
+  position -0.1394140674386002 -5.566785099839089 5.727261006347259
+  follow "Crazyflie"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Crazyflie {
+  translation 1.3195328661860852e-17 1.0599352364628012e-16 0.06498532234148742
+  rotation 0 0 1 1.5770703061004252
+  controller "crazyfliepy"
+}
+RectangleArena {
+  floorSize 6 6
+  floorAppearance Parquetry {
+    type "light strip"
+  }
+}
+Solid {
+  translation 1 1 0.5
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.6 0.8 1
+      }
+      geometry Box {
+        size 0.3 0.3 1
+      }
+    }
+  ]
+}
+SquareManhole {
+  size 0.6 0.6 0.1
+}
