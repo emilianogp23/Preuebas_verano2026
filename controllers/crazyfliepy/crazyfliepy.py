@@ -26,6 +26,7 @@ import math
 # pyre-ignore: missing-import
 from controller import Robot, Camera, DistanceSensor, GPS, Gyro, InertialUnit, Keyboard, Motor
 import scipy.interpolate as spi
+import numpy as np
 
 # Add external controller
 from pid_controller import (
@@ -140,6 +141,7 @@ def main():
     xvec = [p[0] for p in puntos]
     yvec = [p[1] for p in puntos]
     thvec = [math.atan2(1.0-p[1],1.0-p[0]) for p in puntos]
+    thvec = np.unwrap(thvec).tolist()
     
     # tvec debe tener un elemento más que xvec porque luego se le añade la posición global inicial
     tiempo_por_punto = 5.0
@@ -239,6 +241,7 @@ def main():
                 xvec = [x_global] + xvec
                 yvec = [y_global] + yvec
                 thvec = [th] + thvec
+                thvec = np.unwrap(thvec).tolist()
                 xc = spi.splrep(tvec, xvec)
                 yc = spi.splrep(tvec, yvec)
                 thc = spi.splrep(tvec, thvec)
@@ -254,7 +257,7 @@ def main():
                 sideways_desired = -math.sin(th)*vx+math.cos(th)*vy
                 height_desired = altura_vuelo
                 thd = spi.splev(tcurr, thc)
-                dang = math.fmod(th-thd, 2.0*math.pi)
+                dang = (th - thd + math.pi) % (2.0 * math.pi) - math.pi
                 yaw_desired = -Kh*dang
                 if tcurr > tvec[-1]:
                     forward_desired = 0
