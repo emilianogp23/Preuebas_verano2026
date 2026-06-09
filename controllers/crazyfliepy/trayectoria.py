@@ -6,13 +6,13 @@ class control_trayectoria:
     def __init__(self):
 
         self.fov=0.87
-        ladox=0.4
-        ladoy=0.4
+        ladox=1.0  #0.4
+        ladoy=1.0
         ladoz=1.0+0.4
         self.altura_vuelo=ladoz/2
         self.perimetro=2*(ladox+ladoy)
         self.area=(ladox*ladoy)
-        self.d= 0.5 #radio de trayectoria circular
+        self.d= 1.0 #radio de trayectoria circular
         self.posx=1.0
         self.posy=1.0
     

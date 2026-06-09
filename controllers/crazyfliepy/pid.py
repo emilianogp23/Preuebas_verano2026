@@ -3,6 +3,7 @@ import numpy as np
 
 def clamp(value, min_value, max_value):
     return max(min_value, min(value, max_value))
+
 def normalizar_angulos(angulo):
     while angulo > np.pi:
         angulo-=2*np.pi
@@ -52,31 +53,30 @@ class PID:
         error_actual=self.altura-altitud_act
         error_derivado=(error_actual-self.error_altitud)/dt
         self.integrador_altitud=self.integrador_altitud+error_actual*dt
-        error_actual=clamp(error_actual,-1,1)
-        comando_z=((error_actual*self.kp)+(error_derivado*self.kd)+(self.integrador_altitud*self.ki))+self.k
+        comando_z=(((clamp(error_actual,-1,1))*self.kp)+(error_derivado*self.kd)+(self.integrador_altitud*self.ki))+self.k
         self.error_altitud=error_actual
         return comando_z
     
-    def control_roll(self,roll_act,dt):
-        pass
-
-    def control_pitch(self,pitch_act,dt):
-        pass 
-
-    def control_yaw(self,yaw_act,dt):
-        pass 
+    def control_roll(self,roll_obj,roll_act,dt):
+        error_actual=(roll_obj-roll_act)
+        error_derivado=(error_actual-self.error_roll)/dt
+        comando_y=(clamp(error_actual,-1,1)*self.kp_roll)+error_derivado*self.kd_roll
+        self.error_roll=error_actual
+        return comando_y
 
 
 
+    def control_pitch(self,pitch_obj,pitch_act,dt):
+        error_actual=(pitch_obj-pitch_act)
+        error_derivado=(error_actual-self.error_pitch)/dt
+        comando_x=(((clamp(error_actual,-1,1))*self.kp_pitch)+(error_derivado*self.kd_pitch))
+        self.error_pitch=error_actual
+        return -comando_x
 
-
-
-        
-
-        
-        
-
-        
-
-
-
+    def control_yaw(self,yaw_obj,yaw_act,dt):
+        error_actual=(yaw_obj-yaw_act)
+        error_actual=normalizar_angulos(error_actual)
+        error_derivado=(error_actual-self.error_yaw)/dt
+        comando_yaw=(((clamp(error_actual,-1,1))*self.kp_yaw)+(error_derivado*self.kd_yaw))
+        self.error_yaw=error_actual
+        return comando_yaw
