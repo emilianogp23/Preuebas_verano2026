@@ -17,21 +17,21 @@ class PID:
 
         self.k=48.0
         #kp
-        self.kp = 0.0
-        self.kp_roll=0.0
-        self.kp_pitch=0.0
-        self.kp_yaw=0.0
-        self.kp_vx=0.0
-        self.kp_vy=0.0
+        self.kp = 10.0
+        self.kp_roll=0.5
+        self.kp_pitch=0.5
+        self.kp_yaw=1.0
+        self.kp_vx=2.0
+        self.kp_vy=2.0
         #Kd
-        self.kd = 0.0
-        self.kd_roll=0.0
-        self.kd_pitch=0.0
-        self.kd_yaw=0.0
-        self.kd_vx=0.0
-        self.kd_vy=0.0
+        self.kd = 5.0
+        self.kd_roll=0.1
+        self.kd_pitch=0.1
+        self.kd_yaw=0.5
+        self.kd_vx=0.5
+        self.kd_vy=0.5
         #ki
-        self.ki=0.0
+        self.ki=5.0
         self.ki_roll=0.0
         self.ki_pitch=0.0
         self.ki_yaw=0.0
@@ -80,3 +80,28 @@ class PID:
         comando_yaw=(((clamp(error_actual,-1,1))*self.kp_yaw)+(error_derivado*self.kd_yaw))
         self.error_yaw=error_actual
         return comando_yaw
+    
+    def control_vx(self,vx_act, vx_des,dt):
+        error_actual=(vx_des-vx_act)
+        error_derivado=(error_actual-self.error_x)/dt
+        comando_pitch=(((clamp(error_actual,-1,1))*self.kp_vx)+(error_derivado*self.kd_vx))
+        self.error_x=error_actual
+        return comando_pitch
+    
+    def control_vy(self,vy_act, vy_des,dt):
+        error_actual=(vy_des-vy_act)
+        error_derivado=(error_actual-self.error_y)/dt
+        comando_roll=(((clamp(error_actual,-1,1))*self.kp_vy)+(error_derivado*self.kd_vy))
+        self.error_y=error_actual
+        return -comando_roll
+
+    def vel_motores(self,roll,pitch,yaw,z):
+        vel_m1=z-roll+pitch+yaw
+        vel_m2=z-roll-pitch-yaw
+        vel_m3=z+roll-pitch+yaw
+        vel_m4=z+roll+pitch-yaw
+        velocidades=[vel_m1,vel_m2,vel_m3,vel_m4]
+        return velocidades
+
+
+
