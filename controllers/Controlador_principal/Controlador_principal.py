@@ -77,11 +77,34 @@ while robot.step(timestep) != -1:
     timepo_pas=timepo_act
     roll=imu.getRollPitchYaw()[0]
     pitch=imu.getRollPitchYaw()[1]
-    yaw_rate=gyro.getValues()[2]
+    yaw=imu.getRollPitchYaw()[2]
     
     x=gps.getValues()[0]
     y=gps.getValues()[1]
     z=gps.getValues()[2]
+
+    giroscopio=gyro.getValues()
+    ax=acelerometro.getValues()[0]
+    ay=acelerometro.getValues()[1]
+    az=acelerometro.getValues()[2]
+
+    wx=giroscopio[0]
+    wy=giroscopio[1]
+    wz=giroscopio[2]
+
+    odom=odom_obj.update(dt, [ax,ay,az], [roll,pitch,yaw])
+    pos_act=odom[0]
+    vel_act=odom[1]
+
+    error=pos_act-puntos[0]
+    
+    
+
+
+
+    print(odom)
+    print(puntos[0])
+
 
 
     # Read the sensors:
