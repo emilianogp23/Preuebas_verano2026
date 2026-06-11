@@ -20,8 +20,8 @@ class PID:
         self.kp_roll=0.5
         self.kp_pitch=0.5
         self.kp_yaw=1.0
-        self.kp_vx=2.0
-        self.kp_vy=2.0
+        self.kp_vx=0.3 #2.0
+        self.kp_vy=0.3 #2.0
         #Kd
         self.kd = 5.0
         self.kd_roll=0.1
@@ -70,7 +70,7 @@ class PID:
         error_derivado=(error_actual-self.error_pitch)/dt
         comando_x=(((clamp(error_actual,-1,1))*self.kp_pitch)+(error_derivado*self.kd_pitch))
         self.error_pitch=error_actual
-        return -comando_x
+        return comando_x
 
     def control_yaw(self,yaw_obj,yaw_act,dt):
         error_actual=(yaw_obj-yaw_act)
@@ -95,10 +95,10 @@ class PID:
         return -comando_roll
 
     def vel_motores(self,roll,pitch,yaw,z):
-        vel_m1=z-roll+pitch+yaw
-        vel_m2=z-roll-pitch-yaw
-        vel_m3=z+roll-pitch+yaw
-        vel_m4=z+roll+pitch-yaw
+        vel_m1=z-roll-pitch+yaw#z-roll+pitch+yaw
+        vel_m2=z-roll+pitch-yaw#z-roll-pitch-yaw
+        vel_m3=z+roll+pitch+yaw#z+roll-pitch+yaw
+        vel_m4=z+roll-pitch-yaw#z+roll+pitch-yaw
         velocidades=[vel_m1,vel_m2,vel_m3,vel_m4]
         return velocidades
 
