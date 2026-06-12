@@ -2,6 +2,8 @@
 
 # You may need to import some classes of the controller module. Ex:
 #  from controller import Robot, Motor, DistanceSensor
+
+from pid import normalizar_angulos
 # pyrefly: ignore [missing-import]
 from controller import Robot
 import numpy as np 
@@ -51,8 +53,8 @@ acelerometro.enable(timestep)
 
 
 #Ganancias para convertir de distancia a velocidad 
-kp_vx=0.3  #0.3
-kp_vy=0.3
+kp_vx=0.4  #0.3
+kp_vy=0.4
 
 pid_obj=PID()
 odom_obj=OdometriaIMU()
@@ -61,7 +63,7 @@ tray_obj=control_trayectoria()
 num_puntos=tray_obj.puntos_necesarios()
 puntos=tray_obj.puntos_trayectoria_circular(num_puntos)
 
-timepo_pas=robot.getTime()
+
 
 #separar coordenadas de puntos 
 xvec=[p[0] for p in puntos]
@@ -73,27 +75,28 @@ vel=0.5    #v=d/t  t=d/v
 pos_x=1.0
 pos_y=1.0
 
+xvec_orig=xvec
+yvec_orig=yvec
+thvec_orig=[mt.atan2(pos_y-y,pos_x-x) for x , y in zip(xvec_orig,yvec_orig)]
+
+tiempo_por_punto = 5.0
+tvec = [i * tiempo_por_punto for i in range(len(xvec_orig) + 1)]
 
 
-tvec=[0.0]
-thvec=[mt.atan2(pos_y-y,pos_x-x) for x , y in zip(xvec,yvec)]
-thvec=np.unwrap(thvec).tolist()
 
-for i in range(len(puntos)-1):
-    d=mt.dist([xvec[i],yvec[i]],[xvec[i+1],yvec[i+1]])
-    t=(d/vel)
-    timepo_acumulado=tvec[-1]+t
-    tvec.append(timepo_acumulado)
-
-interpol_x=spi.splrep(tvec,xvec)
-interpol_y=spi.splrep(tvec,yvec)
-interpol_w=spi.splrep(tvec,thvec)
 
 #t_inicial=robot.getTime()
 funcionando=False
 t_inicial=0.0
-past_x=0.0
-past_y=0.0
+
+# Esperar 2 segundos para inicializar sensores en Webots
+while robot.step(timestep) != -1:
+    if robot.getTime() > 2.0:
+        break
+
+timepo_pas=robot.getTime()
+past_x=gps.getValues()[0]
+past_y=gps.getValues()[1]
 
 while robot.step(timestep) != -1:
 
@@ -122,14 +125,26 @@ while robot.step(timestep) != -1:
     #vel_act=odom[1]  #cmbios de prueba
 
     if funcionando==False:
-        x_des=puntos[0][0]
-        y_des=puntos[0][1]
-        w_des=thvec[0]
-        d_ini=mt.dist([pos_act[0],pos_act[1]],[x_des,y_des])
-
-        if d_ini< 0.20:
-            funcionando=True
-            t_inicial=t_act
+        if t_act > 5.0:
+            xvec = [x] + xvec_orig
+            yvec = [y] + yvec_orig
+            thvec = [yaw] + thvec_orig
+            thvec = np.unwrap(thvec).tolist()
+            
+            interpol_x = spi.splrep(tvec, xvec)
+            interpol_y = spi.splrep(tvec, yvec)
+            interpol_w = spi.splrep(tvec, thvec)
+            
+            funcionando = True
+            t_inicial = t_act
+            
+            x_des=spi.splev(0,interpol_x)
+            y_des=spi.splev(0,interpol_y)
+            w_des=mt.atan2(pos_y - pos_act[1], pos_x - pos_act[0])
+        else:
+            x_des = x
+            y_des = y
+            w_des = yaw
     else:
         tcurr=t_act-t_inicial
 
@@ -138,7 +153,8 @@ while robot.step(timestep) != -1:
         
         x_des=spi.splev(tcurr,interpol_x)
         y_des=spi.splev(tcurr,interpol_y)
-        w_des=spi.splev(tcurr,interpol_w)
+        # Calcula el ángulo hacia el objeto desde la posición real del dron
+        w_des=mt.atan2(pos_y - pos_act[1], pos_x - pos_act[0])
 
     #errores 
     error_x=x_des-pos_act[0]
@@ -147,8 +163,8 @@ while robot.step(timestep) != -1:
     error_yaw=yaw-w_des
 
     #error global vx,vy
-    vx= error_x*kp_vx
-    vy=error_y*kp_vy
+    vx= max(-1.0, min(1.0, error_x*kp_vx))
+    vy= max(-1.0, min(1.0, error_y*kp_vy))
 
     #error local vx , vy
     vx_local=vx*mt.cos(yaw)+ vy*mt.sin(yaw)
@@ -173,7 +189,8 @@ while robot.step(timestep) != -1:
     vy_des=vy_local
     pitch_act=pitch
     roll_act=roll
-    yaw_des=w_des
+    #yaw_des=w_des - mt.pi
+    yaw_des=normalizar_angulos(w_des)
 
     
 
@@ -184,10 +201,10 @@ while robot.step(timestep) != -1:
     #2. Lazo interno 
     com_x=pid_obj.control_pitch(pitch_des,pitch_act,dt)
     com_y=pid_obj.control_roll(roll_des,roll_act,dt)
-    com_yaw=pid_obj.control_yaw(yaw_des,yaw,dt)
+    com_yaw=pid_obj.control_yaw(yaw_des,yaw,dt,wz)
 
     #3.Altitud y yaw 
-    com_z=pid_obj.control_altitud(z,dt)
+    com_z=pid_obj.control_altitud(tray_obj.altura_vuelo, z, dt)
 
 
 

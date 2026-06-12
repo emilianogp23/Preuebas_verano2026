@@ -19,14 +19,14 @@ class PID:
         self.kp = 10.0
         self.kp_roll=0.5
         self.kp_pitch=0.5
-        self.kp_yaw=1.0
-        self.kp_vx=0.3 #2.0
-        self.kp_vy=0.3 #2.0
+        self.kp_yaw=5.0
+        self.kp_vx=2.0 #2.0
+        self.kp_vy=2.0 #2.0
         #Kd
         self.kd = 5.0
         self.kd_roll=0.1
         self.kd_pitch=0.1
-        self.kd_yaw=0.5
+        self.kd_yaw=1.0
         self.kd_vx=0.5
         self.kd_vy=0.5
         #ki
@@ -48,8 +48,8 @@ class PID:
         self.altura=1.0
        
 
-    def control_altitud(self,altitud_act,dt):
-        error_actual=self.altura-altitud_act
+    def control_altitud(self,altitud_des,altitud_act,dt):
+        error_actual=altitud_des-altitud_act
         error_derivado=(error_actual-self.error_altitud)/dt
         self.integrador_altitud=self.integrador_altitud+error_actual*dt
         comando_z=(((clamp(error_actual,-1,1))*self.kp)+(error_derivado*self.kd)+(self.integrador_altitud*self.ki))+self.k
@@ -72,11 +72,14 @@ class PID:
         self.error_pitch=error_actual
         return comando_x
 
-    def control_yaw(self,yaw_obj,yaw_act,dt):
+    def control_yaw(self,yaw_obj,yaw_act,dt, wz):
         error_actual=(yaw_obj-yaw_act)
         error_actual=normalizar_angulos(error_actual)
-        error_derivado=(error_actual-self.error_yaw)/dt
+        # Use gyro (wz) for derivative term (damping)
+        # Since wz is yaw_rate (d(yaw)/dt), the derivative of error (yaw_obj - yaw) is -wz
+        error_derivado = -wz
         comando_yaw=(((clamp(error_actual,-1,1))*self.kp_yaw)+(error_derivado*self.kd_yaw))
+        comando_yaw = clamp(comando_yaw, -1, 1)
         self.error_yaw=error_actual
         return comando_yaw
     
