@@ -8,7 +8,7 @@ class Generador:
         t = float(t)
 
         a0 = p0
-        a1 = np.zeros(4)
+        a1 = np.zeros_like(p0)
 
         a2 = (3.0 * (pf - p0)) / (t**2)
         a3 = (-2.0 * (pf - p0)) / (t**3)
@@ -44,6 +44,9 @@ class Generador:
             y_actual += separacion
 
         return waypoints
+
+
+
 
 
     
