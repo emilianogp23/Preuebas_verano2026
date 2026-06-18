@@ -1,0 +1,72 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "../protos/Crazyflie.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/factory/manhole/protos/SquareManhole.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/RedBricks.proto"
+
+WorldInfo {
+  info [
+    "Bitcraze's Crazyflie drone."
+    "This simulation allows you to pilot the drone with your keyboard."
+  ]
+  title "Crazyflie"
+}
+Viewpoint {
+  orientation -0.1401693235298809 0.4064946973861262 0.9028369851408045 0.9839976318420581
+  position -3.682828273743048 -3.538690748142766 2.9237822354025944
+  follow "Crazyflie"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Crazyflie {
+  translation 1.9003476721984934e-17 9.439503821680023e-17 0.06499019000000068
+  rotation 7.341321805111216e-16 1.6237606792042656e-16 1 1.5770703061004254
+  controller "Controlador_principal"
+  extensionSlot [
+    Accelerometer {
+    }
+  ]
+}
+RectangleArena {
+  floorSize 6 6
+  floorAppearance Parquetry {
+    type "light strip"
+  }
+}
+Solid {
+  translation 1 1 0.5
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.6 0.8 1
+        roughness 1
+      }
+      geometry Box {
+        size 0.4 0.4 1
+      }
+    }
+  ]
+}
+SquareManhole {
+  size 0.6 0.6 0.1
+}
+Solid {
+  translation 1 1 1.2
+  children [
+    Shape {
+      appearance RedBricks {
+      }
+      geometry Cylinder {
+        height 0.4
+        radius 0.12
+      }
+    }
+  ]
+  name "solid(1)"
+}
