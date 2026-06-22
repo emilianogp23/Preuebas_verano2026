@@ -15,6 +15,8 @@ from odometria_imu import OdometriaIMU
 from trayectoria import control_trayectoria
 from generador_tr import Generador
 
+from colmap import Colmap_Control
+
 
 # create the Robot instance.
 robot = Robot()
@@ -52,6 +54,12 @@ camera.enable(timestep)
 acelerometro=robot.getDevice('accelerometer')
 acelerometro.enable(timestep)
 
+#camara para colmap
+colmap=Colmap_Control(camera)
+foto_intervalo=0.7
+ultima_foto=0.0
+colmap_ejecutado=False
+objetivo_fotos=200
 
 #Ganancias para convertir de distancia a velocidad 
 kp_vx=0.4  #0.3
@@ -252,10 +260,22 @@ while robot.step(timestep) != -1:
     m4.setVelocity(vel_m4)
     
 
-    #rint(odom)
-    print(f"x: {pos_act[0]}, y: {pos_act[1]}, z: {pos_act[2]}")
+    #print(odom)
+    '''print(f"x: {pos_act[0]}, y: {pos_act[1]}, z: {pos_act[2]}")
     print(f"vx_act: {vx_act}, vy_act: {vy_act}")
     print(f"vx_des: {vx_des}, vy_des: {vy_des}")
-    print(puntos[0])
+    print(puntos[0])'''
+
+    if funcionando:
+        if t_act-ultima_foto>=foto_intervalo and colmap.count_images()<objetivo_fotos:
+            if colmap.save_image():
+                ultima_foto=t_act
+                #print(f"Foto {colmap.count_images()}")
+
+        if not colmap_ejecutado and colmap.count_images()>=objetivo_fotos:
+            print("Ejecutando COLMAP...")
+            exito=colmap.run_colmap()
+            print("Reconstrucción:",exito)
+            colmap_ejecutado=True
 
 # Enter here exit cleanup code.
