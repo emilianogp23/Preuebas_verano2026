@@ -13,6 +13,7 @@ from pid import PID
 # pyrefly: ignore [missing-import]
 from odometria_imu import OdometriaIMU
 from trayectoria import control_trayectoria
+from generador_tr import Generador
 
 
 # create the Robot instance.
@@ -59,9 +60,12 @@ kp_vy=0.4
 pid_obj=PID()
 odom_obj=OdometriaIMU()
 tray_obj=control_trayectoria()
+gen_obj=Generador()
 
 num_puntos=tray_obj.puntos_necesarios()
 puntos=tray_obj.puntos_trayectoria_circular(num_puntos)
+#waypoints=tray_obj.puntos_trayectoria_circular(num_puntos)
+indice_wp=0
 
 
 
@@ -98,6 +102,11 @@ timepo_pas=robot.getTime()
 past_x=gps.getValues()[0]
 past_y=gps.getValues()[1]
 
+#variables para trayectoria 4D
+t_vuelo=0.0
+a0,a1,a2,a3=None,None,None,None
+vel_dron=0.8 #m/s
+
 while robot.step(timestep) != -1:
 
     t_act=robot.getTime()
@@ -124,37 +133,64 @@ while robot.step(timestep) != -1:
     pos_act=[x,y,z]#odom[0]
     #vel_act=odom[1]  #cmbios de prueba
 
-    if funcionando==False:
-        if t_act > 5.0:
-            xvec = [x] + xvec_orig
-            yvec = [y] + yvec_orig
-            thvec = [yaw] + thvec_orig
-            thvec = np.unwrap(thvec).tolist()
-            
-            interpol_x = spi.splrep(tvec, xvec)
-            interpol_y = spi.splrep(tvec, yvec)
-            interpol_w = spi.splrep(tvec, thvec)
-            
-            funcionando = True
-            t_inicial = t_act
-            
-            x_des=spi.splev(0,interpol_x)
-            y_des=spi.splev(0,interpol_y)
-            w_des=mt.atan2(pos_y - pos_act[1], pos_x - pos_act[0])
-        else:
-            x_des = x
-            y_des = y
-            w_des = yaw
-    else:
-        tcurr=t_act-t_inicial
-
-        if tcurr > tvec[-1]:
-            tcurr=tvec[-1]
+    if indice_wp < len(puntos):
+        destino=puntos[indice_wp]
+        if funcionando==False:
+            distancia_total = mt.sqrt((destino[0] - x)**2 + (destino[1] - y)**2)
+            t_vuelo = max(distancia_total / vel_dron, 4.0) 
+            a0,a1,a2,a3=Generador.generar_tray(pos_act,destino,t_vuelo)
+            t_inicial=t_act
+            funcionando=True
         
-        x_des=spi.splev(tcurr,interpol_x)
-        y_des=spi.splev(tcurr,interpol_y)
-        # Calcula el ángulo hacia el objeto desde la posición real del dron
-        w_des=mt.atan2(pos_y - pos_act[1], pos_x - pos_act[0])
+        
+        t_tray=min(t_act-t_inicial,t_vuelo)
+        pos_des,vel_des=Generador.eval(a0,a1,a2,a3,t_tray,t_vuelo)
+        x_des=pos_des[0]
+        y_des=pos_des[1]
+        z_des=pos_des[2]
+        w_des=mt.atan2(pos_y-pos_act[1],pos_x-pos_act[0])
+
+        dist_destino=mt.sqrt((destino[0]-pos_act[0])**2+(destino[1]-pos_act[1])**2)
+        if dist_destino < 0.2 and t_tray>=t_vuelo:
+            indice_wp += 1
+            camera.saveImage(f"frame_{t_act:.2f}.png", 100)
+            funcionando=False
+    else:
+        x_des=pos_act[0]
+        y_des=pos_act[1]
+        z_des=pos_act[2]
+    
+    # if funcionando==False:
+    #     if t_act > 5.0:
+    #         xvec = [x] + xvec_orig
+    #         yvec = [y] + yvec_orig
+    #         thvec = [yaw] + thvec_orig
+    #         thvec = np.unwrap(thvec).tolist()
+            
+    #         interpol_x = spi.splrep(tvec, xvec)
+    #         interpol_y = spi.splrep(tvec, yvec)
+    #         interpol_w = spi.splrep(tvec, thvec)
+            
+    #         funcionando = True
+    #         t_inicial = t_act
+            
+    #         x_des=spi.splev(0,interpol_x)
+    #         y_des=spi.splev(0,interpol_y)
+    #         w_des=mt.atan2(pos_y - pos_act[1], pos_x - pos_act[0])
+    #     else:
+    #         x_des = x
+    #         y_des = y
+    #         w_des = yaw
+    # else:
+    #     tcurr=t_act-t_inicial
+
+    #     if tcurr > tvec[-1]:
+    #         tcurr=tvec[-1]
+        
+    #     x_des=spi.splev(tcurr,interpol_x)
+    #     y_des=spi.splev(tcurr,interpol_y)
+    #     # Calcula el ángulo hacia el objeto desde la posición real del dron
+    #     w_des=mt.atan2(pos_y - pos_act[1], pos_x - pos_act[0])
 
     #errores 
     error_x=x_des-pos_act[0]
