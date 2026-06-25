@@ -1,0 +1,382 @@
+
+==============================================================================
+Reading reconstruction
+==============================================================================
+
+ => Reconstruction with 183 images and 16730 points
+
+==============================================================================
+Image undistortion
+==============================================================================
+
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0004.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0005.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0007.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0008.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0009.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0010.jpg
+Undistorting image [1/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0011.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0012.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0013.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0014.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0015.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0016.jpg
+Undistorting image [2/183]
+Undistorting image [3/183]
+Undistorting image [4/183]
+Undistorting image [5/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0020.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0021.jpg
+Undistorting image [6/183]
+Undistorting image [7/183]
+Undistorting image [8/183]
+Undistorting image [9/183]
+Undistorting image [10/183]
+Undistorting image [11/183]
+Undistorted image found; copying to location: Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0017.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0018.jpg
+/home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0019.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0022.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0023.jpg
+Undistorting image [12/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0024.jpg
+Undistorting image [13/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0025.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0026.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0027.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0028.jpg
+Undistorting image [14/183]Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0029.jpg
+
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0030.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0032.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0031.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0033.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0034.jpg
+Undistorting image [15/183]
+Undistorting image [16/183]
+Undistorting image [17/183]
+Undistorting image [18/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0035.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0036.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0037.jpg
+Undistorting image [19/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0038.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0039.jpg
+Undistorted image found; copying to location: Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0040.jpg/home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0041.jpg
+
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0043.jpg
+Undistorting image [20/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0044.jpg
+Undistorting image [21/183]
+Undistorting image [22/183]
+Undistorting image [23/183]
+Undistorting image [24/183]
+Undistorting image [25/183]
+Undistorting image [26/183]
+Undistorting image [27/183]
+Undistorting image [28/183]
+Undistorting image [29/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0042.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0045.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0046.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0047.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0048.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0049.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0050.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0052.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0051.jpg
+Undistorting image [30/183]
+Undistorting image [31/183]
+Undistorting image [32/183]
+Undistorting image [33/183]
+Undistorting image [34/183]
+Undistorting image [35/183]
+Undistorting image [36/183]
+Undistorting image [37/183]
+Undistorting image [38/183]
+Undistorting image [39/183]
+Undistorting image [40/183]
+Undistorting image [41/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0053.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0054.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0055.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0056.jpg
+Undistorting image [42/183]
+Undistorting image [43/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0057.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0059.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0060.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0058.jpg
+Undistorting image [44/183]
+Undistorting image [45/183]
+Undistorting image [46/183]
+Undistorting image [47/183]
+Undistorting image [48/183]
+Undistorting image [49/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0061.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0062.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0063.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0064.jpg
+Undistorting image [50/183]
+Undistorting image [51/183]
+Undistorting image [52/183]
+Undistorting image [53/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0065.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0066.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0067.jpg
+Undistorting image [54/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0068.jpg
+Undistorting image [55/183]
+Undistorting image [56/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0069.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0070.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0071.jpg
+Undistorting image [57/183]
+Undistorting image [58/183]
+Undistorting image [59/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0072.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0077.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0080.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0081.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0082.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0083.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0084.jpg
+Undistorting image [60/183]
+Undistorting image [61/183]
+Undistorting image [62/183]
+Undistorting image [63/183]
+Undistorting image [64/183]
+Undistorting image [65/183]
+Undistorting image [66/183]
+Undistorting image [67/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0085.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0086.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0087.jpg
+Undistorting image [68/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0088.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0089.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0090.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0091.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0092.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0093.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0094.jpg
+Undistorting image [69/183]
+Undistorting image [70/183]
+Undistorting image [71/183]
+Undistorting image [72/183]
+Undistorting image [73/183]
+Undistorting image [74/183]
+Undistorting image [75/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0095.jpg
+Undistorting image [76/183]
+Undistorting image [77/183]
+Undistorting image [78/183]
+Undistorting image [79/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0096.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0097.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0098.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0099.jpg
+Undistorting image [80/183]
+Undistorting image [81/183]
+Undistorting image [82/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0100.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0101.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0102.jpg
+Undistorting image [83/183]
+Undistorting image [84/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0103.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0104.jpg
+Undistorting image [85/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0105.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0106.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0107.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0108.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0109.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0110.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0111.jpg
+Undistorting image [86/183]
+Undistorted image found; copying to location: Undistorting image [87/183]/home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0112.jpg
+
+Undistorting image [88/183]
+Undistorting image [89/183]
+Undistorting image [90/183]
+Undistorting image [91/183]
+Undistorting image [92/183]
+Undistorting image [93/183]
+Undistorting image [94/183]
+Undistorting image [95/183]
+Undistorting image [96/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0113.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0114.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0115.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0116.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0117.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0118.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0119.jpg
+Undistorting image [97/183]
+Undistorting image [98/183]
+Undistorting image [99/183]
+Undistorting image [100/183]
+Undistorting image [101/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0120.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0121.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0122.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0123.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0124.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0125.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0126.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0127.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0128.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0129.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0130.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0133.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0131.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0134.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0132.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0135.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0136.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0137.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0138.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0139.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0140.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0144.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0141.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0145.jpg
+Undistorting image [102/183]
+Undistorting image [103/183]
+Undistorting image [104/183]
+Undistorting image [105/183]
+Undistorting image [106/183]
+Undistorting image [107/183]
+Undistorting image [108/183]
+Undistorting image [109/183]
+Undistorting image [110/183]
+Undistorting image [111/183]
+Undistorting image [112/183]
+Undistorting image [113/183]
+Undistorting image [114/183]
+Undistorting image [115/183]
+Undistorting image [116/183]
+Undistorting image [117/183]
+Undistorting image [118/183]
+Undistorting image [119/183]
+Undistorting image [120/183]
+Undistorting image [121/183]
+Undistorting image [122/183]
+Undistorting image [123/183]
+Undistorting image [124/183]
+Undistorting image [125/183]
+Undistorting image [126/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0142.jpg
+Undistorting image [127/183]
+Undistorting image [128/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0143.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0150.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0153.jpg
+Undistorting image [129/183]
+Undistorting image [130/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0154.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0155.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0156.jpg
+Undistorting image [131/183]Undistorted image found; copying to location: 
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0158.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0159.jpg
+/home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0157.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0160.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0161.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0162.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0163.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0164.jpg
+Undistorting image [132/183]
+Undistorting image [133/183]
+Undistorting image [134/183]
+Undistorting image [135/183]
+Undistorting image [136/183]
+Undistorting image [137/183]
+Undistorting image [138/183]
+Undistorting image [139/183]
+Undistorting image [140/183]
+Undistorting image [141/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0165.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0166.jpg
+Undistorting image [142/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0167.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0168.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0169.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0170.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0171.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0172.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0173.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0174.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0175.jpg
+Undistorting image [143/183]
+Undistorting image [144/183]
+Undistorting image [145/183]
+Undistorting image [146/183]
+Undistorting image [147/183]
+Undistorting image [148/183]
+Undistorting image [149/183]
+Undistorting image [150/183]
+Undistorting image [151/183]
+Undistorting image [152/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0177.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0178.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0179.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0180.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0181.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0182.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0183.jpg
+Undistorting image [153/183]
+Undistorting image [154/183]
+Undistorting image [155/183]
+Undistorting image [156/183]
+Undistorting image [157/183]
+Undistorting image [158/183]
+Undistorting image [159/183]
+Undistorting image [160/183]
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0176.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0184.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0185.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0186.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0187.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0188.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0189.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0190.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0191.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0192.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0193.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0194.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0195.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0196.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0197.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0198.jpg
+Undistorted image found; copying to location: /home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/colmap_output/dense/images/foto_0199.jpg
+Undistorting image [161/183]
+Undistorting image [162/183]
+Undistorting image [163/183]
+Undistorting image [164/183]
+Undistorting image [165/183]
+Undistorting image [166/183]
+Undistorting image [167/183]
+Undistorting image [168/183]
+Undistorting image [169/183]
+Undistorting image [170/183]
+Undistorting image [171/183]
+Undistorting image [172/183]
+Undistorting image [173/183]
+Undistorting image [174/183]
+Undistorting image [175/183]
+Undistorting image [176/183]
+Undistorting image [177/183]
+Undistorting image [178/183]
+Undistorting image [179/183]
+Undistorting image [180/183]
+Undistorting image [181/183]
+Undistorting image [182/183]
+Undistorting image [183/183]
+Writing reconstruction...
+Writing configuration...
+Writing scripts...
+Elapsed time: 0.005 [minutes]
+

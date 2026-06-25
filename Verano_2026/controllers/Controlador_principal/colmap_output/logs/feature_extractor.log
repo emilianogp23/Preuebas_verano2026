@@ -1,0 +1,1209 @@
+
+==============================================================================
+Feature extraction
+==============================================================================
+
+Processed file [1/200]
+  Name:            foto_0000.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        384
+Processed file [2/200]
+  Name:            foto_0001.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        389
+Processed file [3/200]
+  Name:            foto_0002.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        392
+Processed file [4/200]
+  Name:            foto_0003.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        48
+Processed file [5/200]
+  Name:            foto_0004.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1682
+Processed file [6/200]
+  Name:            foto_0005.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        89
+Processed file [7/200]
+  Name:            foto_0006.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        33
+Processed file [8/200]
+  Name:            foto_0007.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1261
+Processed file [9/200]
+  Name:            foto_0008.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        784
+Processed file [10/200]
+  Name:            foto_0009.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        774
+Processed file [11/200]
+  Name:            foto_0010.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        965
+Processed file [12/200]
+  Name:            foto_0011.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        971
+Processed file [13/200]
+  Name:            foto_0012.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        888
+Processed file [14/200]
+  Name:            foto_0013.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        917
+Processed file [15/200]
+  Name:            foto_0014.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        932
+Processed file [16/200]
+  Name:            foto_0015.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        923
+Processed file [17/200]
+  Name:            foto_0016.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1017
+Processed file [18/200]
+  Name:            foto_0017.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1082
+Processed file [19/200]
+  Name:            foto_0018.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1120
+Processed file [20/200]
+  Name:            foto_0019.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1209
+Processed file [21/200]
+  Name:            foto_0020.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1166
+Processed file [22/200]
+  Name:            foto_0021.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1165
+Processed file [23/200]
+  Name:            foto_0022.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1233
+Processed file [24/200]
+  Name:            foto_0023.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1160
+Processed file [25/200]
+  Name:            foto_0024.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1206
+Processed file [26/200]
+  Name:            foto_0025.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1229
+Processed file [27/200]
+  Name:            foto_0026.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1319
+Processed file [28/200]
+  Name:            foto_0027.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1452
+Processed file [29/200]
+  Name:            foto_0028.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1497
+Processed file [30/200]
+  Name:            foto_0029.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1468
+Processed file [31/200]
+  Name:            foto_0030.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1463
+Processed file [32/200]
+  Name:            foto_0031.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1497
+Processed file [33/200]
+  Name:            foto_0032.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1475
+Processed file [34/200]
+  Name:            foto_0033.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1410
+Processed file [35/200]
+  Name:            foto_0034.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1439
+Processed file [36/200]
+  Name:            foto_0035.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1428
+Processed file [37/200]
+  Name:            foto_0036.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1643
+Processed file [38/200]
+  Name:            foto_0037.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1815
+Processed file [39/200]
+  Name:            foto_0038.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1760
+Processed file [40/200]
+  Name:            foto_0039.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1700
+Processed file [41/200]
+  Name:            foto_0040.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1594
+Processed file [42/200]
+  Name:            foto_0041.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1607
+Processed file [43/200]
+  Name:            foto_0042.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1541
+Processed file [44/200]
+  Name:            foto_0043.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1507
+Processed file [45/200]
+  Name:            foto_0044.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1487
+Processed file [46/200]
+  Name:            foto_0045.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1496
+Processed file [47/200]
+  Name:            foto_0046.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1421
+Processed file [48/200]
+  Name:            foto_0047.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1399
+Processed file [49/200]
+  Name:            foto_0048.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1349
+Processed file [50/200]
+  Name:            foto_0049.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1266
+Processed file [51/200]
+  Name:            foto_0050.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1193
+Processed file [52/200]
+  Name:            foto_0051.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1195
+Processed file [53/200]
+  Name:            foto_0052.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1081
+Processed file [54/200]
+  Name:            foto_0053.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1107
+Processed file [55/200]
+  Name:            foto_0054.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1072
+Processed file [56/200]
+  Name:            foto_0055.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1118
+Processed file [57/200]
+  Name:            foto_0056.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1133
+Processed file [58/200]
+  Name:            foto_0057.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1097
+Processed file [59/200]
+  Name:            foto_0058.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1118
+Processed file [60/200]
+  Name:            foto_0059.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        979
+Processed file [61/200]
+  Name:            foto_0060.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        874
+Processed file [62/200]
+  Name:            foto_0061.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        817
+Processed file [63/200]
+  Name:            foto_0062.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        765
+Processed file [64/200]
+  Name:            foto_0063.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        720
+Processed file [65/200]
+  Name:            foto_0064.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        722
+Processed file [66/200]
+  Name:            foto_0065.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        655
+Processed file [67/200]
+  Name:            foto_0066.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        694
+Processed file [68/200]
+  Name:            foto_0067.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        653
+Processed file [69/200]
+  Name:            foto_0068.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        667
+Processed file [70/200]
+  Name:            foto_0069.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        627
+Processed file [71/200]
+  Name:            foto_0070.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        664
+Processed file [72/200]
+  Name:            foto_0071.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        641
+Processed file [73/200]
+  Name:            foto_0072.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        606
+Processed file [74/200]
+  Name:            foto_0073.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        384
+Processed file [75/200]
+  Name:            foto_0074.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        389
+Processed file [76/200]
+  Name:            foto_0075.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        392
+Processed file [77/200]
+  Name:            foto_0076.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        48
+Processed file [78/200]
+  Name:            foto_0077.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1682
+Processed file [79/200]
+  Name:            foto_0078.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        89
+Processed file [80/200]
+  Name:            foto_0079.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        33
+Processed file [81/200]
+  Name:            foto_0080.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1261
+Processed file [82/200]
+  Name:            foto_0081.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        784
+Processed file [83/200]
+  Name:            foto_0082.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        774
+Processed file [84/200]
+  Name:            foto_0083.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        965
+Processed file [85/200]
+  Name:            foto_0084.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        971
+Processed file [86/200]
+  Name:            foto_0085.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        888
+Processed file [87/200]
+  Name:            foto_0086.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        917
+Processed file [88/200]
+  Name:            foto_0087.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        932
+Processed file [89/200]
+  Name:            foto_0088.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        923
+Processed file [90/200]
+  Name:            foto_0089.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1017
+Processed file [91/200]
+  Name:            foto_0090.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1082
+Processed file [92/200]
+  Name:            foto_0091.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1120
+Processed file [93/200]
+  Name:            foto_0092.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1209
+Processed file [94/200]
+  Name:            foto_0093.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1166
+Processed file [95/200]
+  Name:            foto_0094.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1165
+Processed file [96/200]
+  Name:            foto_0095.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1233
+Processed file [97/200]
+  Name:            foto_0096.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1160
+Processed file [98/200]
+  Name:            foto_0097.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1206
+Processed file [99/200]
+  Name:            foto_0098.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1229
+Processed file [100/200]
+  Name:            foto_0099.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1319
+Processed file [101/200]
+  Name:            foto_0100.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1452
+Processed file [102/200]
+  Name:            foto_0101.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1497
+Processed file [103/200]
+  Name:            foto_0102.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1468
+Processed file [104/200]
+  Name:            foto_0103.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1463
+Processed file [105/200]
+  Name:            foto_0104.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1497
+Processed file [106/200]
+  Name:            foto_0105.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1475
+Processed file [107/200]
+  Name:            foto_0106.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1410
+Processed file [108/200]
+  Name:            foto_0107.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1439
+Processed file [109/200]
+  Name:            foto_0108.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1428
+Processed file [110/200]
+  Name:            foto_0109.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1643
+Processed file [111/200]
+  Name:            foto_0110.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1815
+Processed file [112/200]
+  Name:            foto_0111.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1760
+Processed file [113/200]
+  Name:            foto_0112.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1700
+Processed file [114/200]
+  Name:            foto_0113.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1594
+Processed file [115/200]
+  Name:            foto_0114.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1607
+Processed file [116/200]
+  Name:            foto_0115.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1541
+Processed file [117/200]
+  Name:            foto_0116.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1507
+Processed file [118/200]
+  Name:            foto_0117.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1487
+Processed file [119/200]
+  Name:            foto_0118.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1496
+Processed file [120/200]
+  Name:            foto_0119.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1421
+Processed file [121/200]
+  Name:            foto_0120.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1399
+Processed file [122/200]
+  Name:            foto_0121.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1349
+Processed file [123/200]
+  Name:            foto_0122.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1266
+Processed file [124/200]
+  Name:            foto_0123.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1193
+Processed file [125/200]
+  Name:            foto_0124.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1195
+Processed file [126/200]
+  Name:            foto_0125.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1081
+Processed file [127/200]
+  Name:            foto_0126.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1107
+Processed file [128/200]
+  Name:            foto_0127.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1072
+Processed file [129/200]
+  Name:            foto_0128.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1118
+Processed file [130/200]
+  Name:            foto_0129.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1133
+Processed file [131/200]
+  Name:            foto_0130.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1097
+Processed file [132/200]
+  Name:            foto_0131.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1118
+Processed file [133/200]
+  Name:            foto_0132.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        979
+Processed file [134/200]
+  Name:            foto_0133.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        874
+Processed file [135/200]
+  Name:            foto_0134.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        817
+Processed file [136/200]
+  Name:            foto_0135.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        765
+Processed file [137/200]
+  Name:            foto_0136.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        720
+Processed file [138/200]
+  Name:            foto_0137.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        722
+Processed file [139/200]
+  Name:            foto_0138.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        655
+Processed file [140/200]
+  Name:            foto_0139.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        694
+Processed file [141/200]
+  Name:            foto_0140.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        653
+Processed file [142/200]
+  Name:            foto_0141.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        667
+Processed file [143/200]
+  Name:            foto_0142.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        627
+Processed file [144/200]
+  Name:            foto_0143.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        664
+Processed file [145/200]
+  Name:            foto_0144.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        641
+Processed file [146/200]
+  Name:            foto_0145.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        606
+Processed file [147/200]
+  Name:            foto_0146.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        384
+Processed file [148/200]
+  Name:            foto_0147.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        389
+Processed file [149/200]
+  Name:            foto_0148.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        392
+Processed file [150/200]
+  Name:            foto_0149.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        48
+Processed file [151/200]
+  Name:            foto_0150.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1682
+Processed file [152/200]
+  Name:            foto_0151.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        89
+Processed file [153/200]
+  Name:            foto_0152.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        33
+Processed file [154/200]
+  Name:            foto_0153.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1261
+Processed file [155/200]
+  Name:            foto_0154.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        784
+Processed file [156/200]
+  Name:            foto_0155.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        774
+Processed file [157/200]
+  Name:            foto_0156.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        965
+Processed file [158/200]
+  Name:            foto_0157.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        971
+Processed file [159/200]
+  Name:            foto_0158.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        888
+Processed file [160/200]
+  Name:            foto_0159.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        917
+Processed file [161/200]
+  Name:            foto_0160.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        932
+Processed file [162/200]
+  Name:            foto_0161.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        923
+Processed file [163/200]
+  Name:            foto_0162.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1017
+Processed file [164/200]
+  Name:            foto_0163.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1082
+Processed file [165/200]
+  Name:            foto_0164.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1120
+Processed file [166/200]
+  Name:            foto_0165.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1209
+Processed file [167/200]
+  Name:            foto_0166.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1166
+Processed file [168/200]
+  Name:            foto_0167.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1165
+Processed file [169/200]
+  Name:            foto_0168.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1233
+Processed file [170/200]
+  Name:            foto_0169.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1160
+Processed file [171/200]
+  Name:            foto_0170.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1206
+Processed file [172/200]
+  Name:            foto_0171.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1229
+Processed file [173/200]
+  Name:            foto_0172.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1319
+Processed file [174/200]
+  Name:            foto_0173.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1452
+Processed file [175/200]
+  Name:            foto_0174.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1497
+Processed file [176/200]
+  Name:            foto_0175.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1468
+Processed file [177/200]
+  Name:            foto_0176.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1463
+Processed file [178/200]
+  Name:            foto_0177.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1497
+Processed file [179/200]
+  Name:            foto_0178.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1475
+Processed file [180/200]
+  Name:            foto_0179.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1410
+Processed file [181/200]
+  Name:            foto_0180.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1439
+Processed file [182/200]
+  Name:            foto_0181.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1428
+Processed file [183/200]
+  Name:            foto_0182.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1643
+Processed file [184/200]
+  Name:            foto_0183.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1815
+Processed file [185/200]
+  Name:            foto_0184.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1760
+Processed file [186/200]
+  Name:            foto_0185.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1700
+Processed file [187/200]
+  Name:            foto_0186.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1594
+Processed file [188/200]
+  Name:            foto_0187.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1607
+Processed file [189/200]
+  Name:            foto_0188.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1541
+Processed file [190/200]
+  Name:            foto_0189.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1507
+Processed file [191/200]
+  Name:            foto_0190.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1487
+Processed file [192/200]
+  Name:            foto_0191.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1496
+Processed file [193/200]
+  Name:            foto_0192.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1421
+Processed file [194/200]
+  Name:            foto_0193.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1399
+Processed file [195/200]
+  Name:            foto_0194.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1349
+Processed file [196/200]
+  Name:            foto_0195.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1266
+Processed file [197/200]
+  Name:            foto_0196.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1193
+Processed file [198/200]
+  Name:            foto_0197.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1195
+Processed file [199/200]
+  Name:            foto_0198.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1081
+Processed file [200/200]
+  Name:            foto_0199.jpg
+  Dimensions:      1280 x 720
+  Camera:          #1 - PINHOLE
+  Focal Length:    1536.00px
+  Features:        1107
+Elapsed time: 1.817 [minutes]
+
+Warning: Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland to run on Wayland anyway.
+

@@ -1,0 +1,76 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "../protos/Crazyflie.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/factory/manhole/protos/SquareManhole.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/CementTiles.proto"
+
+WorldInfo {
+  info [
+    "Bitcraze's Crazyflie drone."
+    "This simulation allows you to pilot the drone with your keyboard."
+  ]
+  title "Crazyflie"
+}
+Viewpoint {
+  orientation -0.15154998895447838 0.7197002573927007 0.6775427221635386 0.8314138029988258
+  position -4.901578585839995 -4.103486205054826 6.445616051594581
+  follow "Crazyflie"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Crazyflie {
+  hidden linearVelocity_0 -1.4584050517682634e-17 7.564069232473034e-18 -1.0658141036401502e-16
+  hidden angularVelocity_0 6.321542811822126e-31 -3.9650822308041282e-16 4.1482497530045103e-17
+  translation 9.378946512460046e-18 9.382307661211765e-17 0.06499019000000002
+  rotation 6.959880338775085e-16 9.925218109913464e-17 1 1.5770703061004254
+  controller "Controlador_principal"
+  extensionSlot [
+    Accelerometer {
+    }
+  ]
+}
+RectangleArena {
+  floorSize 10 10
+  floorAppearance Parquetry {
+    type "light strip"
+  }
+  wallHeight 1.4
+  wallAppearance CementTiles {
+    textureTransform TextureTransform {
+      scale 2 2
+    }
+  }
+}
+SquareManhole {
+  size 0.6 0.6 0.1
+}
+Transform {
+  translation 1 1 0
+  rotation -0.983575112924757 0.13202301515762926 0.12308501413145283 -1.5842053071795865
+  scale 0.01 0.01 0.01
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "10-rp_dennis_posed_004_3dm_free3d/rp_dennis_posed_004_dif.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+        IBLStrength 3
+      }
+      geometry Mesh {
+        url [
+          "10-rp_dennis_posed_004_3dm_free3d/rp_dennis_posed_004_30k.OBJ"
+        ]
+      }
+    }
+  ]
+}

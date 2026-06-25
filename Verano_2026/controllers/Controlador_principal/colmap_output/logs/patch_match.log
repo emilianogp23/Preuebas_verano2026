@@ -1,0 +1,2 @@
+ERROR: Dense stereo reconstruction requires CUDA, which is not available on your system.
+
