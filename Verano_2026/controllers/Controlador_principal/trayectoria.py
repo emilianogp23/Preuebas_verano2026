@@ -20,14 +20,12 @@ class control_trayectoria:
     
 
     def puntos_necesarios(self):
-
-        
         w=2.0*self.d*mt.tan(self.fov/2.0)
         traslape=0.3
         w_efectivo=w*(1.0-traslape)
         puntos=self.perimetro/w_efectivo
         puntos=mt.ceil(puntos)
-        return puntos
+        return 5 #puntos
     
     def puntos_trayectoria_circular(self,numero_puntos):
         separacion=(2.0*mt.pi)/numero_puntos

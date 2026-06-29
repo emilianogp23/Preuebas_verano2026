@@ -25,11 +25,10 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Crazyflie {
-  hidden linearVelocity_0 -1.4584050517682634e-17 7.564069232473034e-18 -1.0658141036401502e-16
-  hidden angularVelocity_0 6.321542811822126e-31 -3.9650822308041282e-16 4.1482497530045103e-17
   translation 9.378946512460046e-18 9.382307661211765e-17 0.06499019000000002
   rotation 6.959880338775085e-16 9.925218109913464e-17 1 1.5770703061004254
   controller "Controlador_principal"
+  supervisor TRUE
   extensionSlot [
     Accelerometer {
     }

@@ -1,24 +1,29 @@
-"""Controlador_principal controller."""
-
-# You may need to import some classes of the controller module. Ex:
-#  from controller import Robot, Motor, DistanceSensor
-
-#from Verano_2026.controllers.Controlador_principal.Controlador_principal import exito
+#Controlador_principal controller
 from pid import normalizar_angulos
 # pyrefly: ignore [missing-import]
-from controller import Robot
+from controller import Supervisor#Robot
 import numpy as np 
 import math as mt
 import scipy.interpolate as spi
 from pid import PID
 # pyrefly: ignore [missing-import]
 from odometria_imu import OdometriaIMU
-from trayectoria import control_trayectoria
+#from trayectoria import control_trayectoria
 from generador_tr import Generador
+import json
+import sys
+import os 
+import glob
+
+def apagar_motores(m1,m2,m3,m4):
+    m1.setVelocity(0.0)
+    m2.setVelocity(0.0)
+    m3.setVelocity(0.0)
+    m4.setVelocity(0.0)
 
 
 # create the Robot instance.
-robot = Robot()
+robot = Supervisor()
 
 # get the time step of the current world.
 timestep = int(robot.getBasicTimeStep())
@@ -59,35 +64,45 @@ kp_vx=0.4  #0.3
 kp_vy=0.4
 
 pid_obj=PID()
-odom_obj=OdometriaIMU()
-tray_obj=control_trayectoria()
-gen_obj=Generador()
+# odom_obj=OdometriaIMU()
+# tray_obj=control_trayectoria()
+# gen_obj=Generador()
 
-num_puntos=tray_obj.puntos_necesarios()
-puntos=tray_obj.puntos_trayectoria_circular(num_puntos)
+# num_puntos=tray_obj.puntos_necesarios()
+# puntos=tray_obj.puntos_trayectoria_circular(num_puntos)
 #waypoints=tray_obj.puntos_trayectoria_circular(num_puntos)
+ruta="/home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/mision.json"
+ruta2="/home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/reporte_vuelo.json"
+ruta_fotos="/home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/fotos_capturadas"
+try:
+    with open(ruta, 'r') as f:
+        datos=json.load(f)
+        waypoints = datos["waypoints"]
+except:
+    waypoints=[[0.0,0.0,0.0,0.0]]
+    print("No se encontraron waypoints")
+    sys.exit()
+
+puntos=waypoints
+
 indice_wp=0
 
+# #separar coordenadas de puntos 
+# xvec=[p[0] for p in puntos]
+# yvec=[p[1] for p in puntos]
 
-
-#separar coordenadas de puntos 
-xvec=[p[0] for p in puntos]
-yvec=[p[1] for p in puntos]
-
-vel=2.3    #v=d/t  t=d/v
+vel=1.0    #v=d/t  t=d/v
 
 #posicion del objeto en mapa
-pos_x=1.0
-pos_y=1.0
+# pos_x=1.0
+# pos_y=1.0
 
-xvec_orig=xvec
-yvec_orig=yvec
-thvec_orig=[mt.atan2(pos_y-y,pos_x-x) for x , y in zip(xvec_orig,yvec_orig)]
+# xvec_orig=xvec
+# yvec_orig=yvec
+# thvec_orig=[mt.atan2(pos_y-y,pos_x-x) for x , y in zip(xvec_orig,yvec_orig)]
 
-tiempo_por_punto = 5.0
-tvec = [i * tiempo_por_punto for i in range(len(xvec_orig) + 1)]
-
-
+# tiempo_por_punto = 5.0
+# tvec = [i * tiempo_por_punto for i in range(len(xvec_orig) + 1)]
 
 
 #t_inicial=robot.getTime()
@@ -107,6 +122,13 @@ past_y=gps.getValues()[1]
 t_vuelo=0.0
 a0,a1,a2,a3=None,None,None,None
 vel_dron=vel#0.8 #m/s
+
+os.makedirs(ruta_fotos, exist_ok=True)
+
+archivos_anteriores = glob.glob(os.path.join(ruta_fotos, "*"))
+for archivo in archivos_anteriores:
+    os.remove(archivo)
+print("Carpeta limpia ")
 
 while robot.step(timestep) != -1:
 
@@ -131,14 +153,17 @@ while robot.step(timestep) != -1:
     wz=giroscopio[2]
 
     #odom=odom_obj.update(dt, [ax,ay,az], [roll,pitch,yaw])  #cmbios de prueba
-    pos_act=[x,y,z]#odom[0]
+    pos_act=[x,y,z,yaw]#odom[0]
     #vel_act=odom[1]  #cmbios de prueba
 
     if indice_wp < len(puntos):
-        destino=puntos[indice_wp]
+        destino=list(puntos[indice_wp])
         if funcionando==False:
             distancia_total = mt.sqrt((destino[0] - x)**2 + (destino[1] - y)**2)
             t_vuelo = max(distancia_total / vel_dron, 4.0) 
+            dist_yaw=normalizar_angulos(destino[3]-pos_act[3])
+            destino[3]=pos_act[3]+dist_yaw
+
             a0,a1,a2,a3=Generador.generar_tray(pos_act,destino,t_vuelo)
             t_inicial=t_act
             funcionando=True
@@ -149,22 +174,36 @@ while robot.step(timestep) != -1:
         x_des=pos_des[0]
         y_des=pos_des[1]
         z_des=pos_des[2]
-        w_des=mt.atan2(pos_y-pos_act[1],pos_x-pos_act[0])
+        w_des=normalizar_angulos(pos_des[3])
+        #w_des=mt.atan2(pos_y-pos_act[1],pos_x-pos_act[0])
+        #w_des=yaw
+        
 
         dist_destino=mt.sqrt((destino[0]-pos_act[0])**2+(destino[1]-pos_act[1])**2)
         if dist_destino < 0.2 and t_tray>=t_vuelo:
             indice_wp += 1
-            camera.saveImage(f"frame_{t_act:.2f}.png", 100)
+            camera.saveImage(f"{ruta_fotos}/wp_{indice_wp}.png", 100)
             funcionando=False
     else:
-        x_des=pos_act[0]
-        y_des=pos_act[1]
-        z_des=pos_act[2]
+        apagar_motores(m1,m2,m3,m4)
+        reporte_vuelo={
+            "t_vuelo":t_vuelo,
+            "pos_inicial":pos_act,
+            "pos_final":pos_act,
+            "puntos":waypoints,
+            "tiempo_total":t_act
+        }
+        with open(ruta2, "w") as f:
+            json.dump(reporte_vuelo, f)
+        print("Simulación finalizada")
+        robot.simulationQuit(0)
+        break
+
 
     #errores 
     error_x=x_des-pos_act[0]
     error_y=y_des-pos_act[1]
-    error_z=tray_obj.altura_vuelo-pos_act[2]
+    error_z=z_des-pos_act[2]
     error_yaw=yaw-w_des
 
     #error global vx,vy
@@ -207,7 +246,7 @@ while robot.step(timestep) != -1:
     com_yaw=pid_obj.control_yaw(yaw_des,yaw,dt,wz)
 
     #3.Altitud y yaw 
-    com_z=pid_obj.control_altitud(tray_obj.altura_vuelo, z, dt)
+    com_z=pid_obj.control_altitud(z_des, z, dt)
 
 
 
