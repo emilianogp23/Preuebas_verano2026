@@ -6,13 +6,13 @@ class control_trayectoria:
     def __init__(self):
 
         self.fov=0.87
-        ladox=4.0 #0.4
-        ladoy=4.0
-        ladoz=2.0
+        ladox=4.5 #0.4
+        ladoy=4.5
+        ladoz=1.7
         self.altura_vuelo=ladoz/2
         self.perimetro=2*(ladox+ladoy)
         self.area=(ladox*ladoy)
-        self.d= 3.5 #radio de trayectoria circular
+        self.d= 3.9 #radio de trayectoria circular
 
 
         self.posx=1.0   #posicion del obj x
@@ -25,7 +25,7 @@ class control_trayectoria:
         w_efectivo=w*(1.0-traslape)
         puntos=self.perimetro/w_efectivo
         puntos=mt.ceil(puntos)
-        return 5 #puntos
+        return puntos
     
     def puntos_trayectoria_circular(self,numero_puntos):
         separacion=(2.0*mt.pi)/numero_puntos

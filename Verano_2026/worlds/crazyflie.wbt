@@ -16,8 +16,8 @@ WorldInfo {
   title "Crazyflie"
 }
 Viewpoint {
-  orientation -0.15154998895447838 0.7197002573927007 0.6775427221635386 0.8314138029988258
-  position -4.901578585839995 -4.103486205054826 6.445616051594581
+  orientation -0.2319814931767784 0.26609180055509923 0.9356173045112076 1.685768685597268
+  position 1.4741749221758855 -23.27395965588971 14.475031171123662
   follow "Crazyflie"
 }
 TexturedBackground {
@@ -35,7 +35,7 @@ Crazyflie {
   ]
 }
 RectangleArena {
-  floorSize 10 10
+  floorSize 15 15
   floorAppearance Parquetry {
     type "light strip"
   }
@@ -52,7 +52,7 @@ SquareManhole {
 Transform {
   translation 1 1 0
   rotation -0.983575112924757 0.13202301515762926 0.12308501413145283 -1.5842053071795865
-  scale 0.01 0.01 0.01
+  scale 0.009 0.009 0.009
   children [
     Shape {
       appearance PBRAppearance {
