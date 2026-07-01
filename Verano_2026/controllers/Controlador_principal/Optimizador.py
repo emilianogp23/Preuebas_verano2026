@@ -11,8 +11,31 @@ import matplotlib.pyplot as plt
 import shutil
 import os 
 
+# Rutas dinámicas
+dir_controlador = os.path.dirname(os.path.abspath(__file__))
+ruta_base = os.path.abspath(os.path.join(dir_controlador, "..", ".."))
+
+# Determinar ruta de Webots
+webots_path = "webots"
+posibles_rutas = [
+    r"C:\Program Files\Webots\msys64\mingw64\bin\webots.exe",
+    r"C:\Program Files\Webots\bin\webots.exe",
+    r"C:\Program Files\Webots\msys64\mingw64\bin\webotsw.exe",
+    r"C:\Program Files\Webots\bin\webotsw.exe"
+]
+for r in posibles_rutas:
+    if os.path.exists(r):
+        webots_path = r
+        break
+
+ruta_mision = os.path.join(ruta_base, "mision.json")
+ruta_reporte = os.path.join(ruta_base, "reporte_vuelo.json")
+ruta_mundo = os.path.join(ruta_base, "worlds", "crazyflie.wbt")
+ruta_historia = os.path.join(ruta_base, "Historia_rutas")
+ruta_convergencia = os.path.join(ruta_base, "convergencia.png")
 
 detector=YoloDetector()
+tray_obj = control_trayectoria()
 
 contador=0
 costos=[]
@@ -20,23 +43,32 @@ def fun_costo(p):
     global contador 
     contador+=1
     print(f"ITERACION {contador}")
-    # 1. Reconstruir a 4D
-    wp = np.reshape(p, (-1, 4)).tolist()
+    # 1. Reconstruir a 4D a partir de 3D (x, y, z)
+    wp3d = np.reshape(p, (-1, 3)).tolist()
+    wp = []
+    for w in wp3d:
+        x = w[0]
+        y = w[1]
+        z = w[2]
+        dx = 1.0 - x
+        dy = 1.0 - y
+        yaw = mt.atan2(dy, dx)
+        wp.append([x, y, z, yaw])
     
     # 2. Escribir 'mision.json'
     diccionario={
         "waypoints":wp
     }
-    with open("mision.json", "w") as f:
+    with open(ruta_mision, "w") as f:
         json.dump(diccionario, f)
     
     # 3. Llamar a Webots (subprocess)
-    comando=["webots", "--mode=fast","--no-rendering","--minimize", "--batch", "/home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/worlds/crazyflie.wbt"]
+    comando=[webots_path, "--mode=fast","--no-rendering","--minimize", "--batch", ruta_mundo]
     print("SIMULACION")
     subprocess.run(comando)
     
     # 4. Leer 'reporte_vuelo.json'
-    with open("reporte_vuelo.json", "r") as f:
+    with open(ruta_reporte, "r") as f:
         diccionario2=json.load(f)
         t_vuelo=diccionario2["t_vuelo"]
         pos_inicial=diccionario2["pos_inicial"]
@@ -63,8 +95,8 @@ def fun_costo(p):
         w1=w[0]
         w2=w[1]
         d=mt.sqrt((w1-1.0)**2+(w2-1.0)**2)
-        if d<2.0:
-            co += 1000.0 * (2.0 - d)**2
+        if d<1.2:
+            co += 1000.0 * (1.2 - d)**2
         elif d>5.5:
             co += 1000.0 * (d - 5.5)**2
     costo=costo+co
@@ -83,58 +115,56 @@ def fun_costo(p):
     plt.plot(x_vals, y_vals, marker='x', color='blue', label='Ruta')
     plt.plot(1.0, 1.0, marker='*', color='gold', markersize=15, label='Objeto') 
     ax = plt.gca()
-    ax.add_patch(plt.Circle((1.0, 1.0), 2.0, color='red', fill=False, linestyle='--'))
+    ax.add_patch(plt.Circle((1.0, 1.0), 1.2, color='red', fill=False, linestyle='--'))
     ax.add_patch(plt.Circle((1.0, 1.0), 5.5, color='green', fill=False, linestyle='--'))
 
     plt.xlim(-5, 7)
     plt.ylim(-5, 7)
     plt.grid(True)
     plt.title(f"Iteración {contador} - Costo: {round(costo, 2)}")
-    plt.savefig(f"Historia_rutas/iteracion_{contador}.png")
+    plt.savefig(os.path.join(ruta_historia, f"iteracion_{contador}.png"))
     plt.close()
 
     return costo
 
 if __name__ == "__main__":
 
-    if os.path.exists("Historia_rutas") is False:
-        os.makedirs("Historia_rutas")
+    if os.path.exists(ruta_historia) is False:
+        os.makedirs(ruta_historia)
     else:
-        shutil.rmtree("Historia_rutas")
-        os.makedirs("Historia_rutas")
+        shutil.rmtree(ruta_historia)
+        os.makedirs(ruta_historia)
         
-    tray_obj=control_trayectoria()
     num_puntos=tray_obj.puntos_necesarios()
     puntos=tray_obj.puntos_trayectoria_circular(num_puntos)
-    waypoints=tray_obj.puntos_trayectoria_circular(num_puntos)
-    puntos4d=[]
+    
+    puntos3d=[]
    
     for i in range(len(puntos)):
         x=puntos[i][0]
         y=puntos[i][1]
         z=puntos[i][2]
-        dy=1.0-y
-        dx=1.0-x
-        yaw=mt.atan2(dy,dx)
-        puntos4d.append([x,y,z,yaw])
+        puntos3d.append([x, y, z])
 
-    puntos4d=np.array(puntos4d)
-    wp_in=np.ravel(puntos4d)
+    puntos3d=np.array(puntos3d)
+    wp_in=np.ravel(puntos3d)
     
 
     N = len(wp_in)
     simplex_inicial = np.zeros((N + 1, N))
     simplex_inicial[0] = wp_in
-    radio_busqueda = 0.5 # 50 centímetros (o 0.5 radianes) de salto inicial
+    radio_busqueda = 1.5 # 1.5 metros de salto inicial para escapar del ruido de YOLO
     for i in range(N):
         simplex_inicial[i+1] = np.copy(wp_in)
         simplex_inicial[i+1][i] += radio_busqueda
     # -----------------------------------------------
     
-    print(f" optimizando con {len(puntos4d)} puntos de control ")
-    resultado=minimize(fun_costo, wp_in,method="Nelder-Mead",options={'maxiter':1000,'disp':True, 'initial_simplex': simplex_inicial})
+    print(f" optimizando con {len(puntos3d)} puntos de control (en 3D) ")
+    # Usamos Nelder-Mead con un simplex inicial grande. 
+    # fatol y xatol aumentados para que no pierda tiempo en precisiones milimétricas que YOLO no puede percibir.
+    resultado=minimize(fun_costo, wp_in, method="Nelder-Mead", options={'maxiter':1000, 'disp':True, 'initial_simplex': simplex_inicial, 'adaptive': True, 'xatol': 0.1, 'fatol': 0.1})
     print("\n")
-    print(f"RESULTADO:{np.reshape(resultado.x,(-1,4))}")
+    print(f"RESULTADO:{np.reshape(resultado.x,(-1,3))}")
     
 
     plt.plot(range(1, len(costos) + 1), costos, marker='o')
@@ -142,7 +172,7 @@ if __name__ == "__main__":
     plt.ylabel("Costo (Error)")
     plt.title("Convergencia del Algoritmo de Optimización")
     plt.grid(True)
-    plt.savefig("convergencia.png")
+    plt.savefig(ruta_convergencia)
     plt.show()
 
 

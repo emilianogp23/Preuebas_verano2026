@@ -71,9 +71,12 @@ pid_obj=PID()
 # num_puntos=tray_obj.puntos_necesarios()
 # puntos=tray_obj.puntos_trayectoria_circular(num_puntos)
 #waypoints=tray_obj.puntos_trayectoria_circular(num_puntos)
-ruta="/home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/mision.json"
-ruta2="/home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/reporte_vuelo.json"
-ruta_fotos="/home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/fotos_capturadas"
+# Obtener rutas dinámicas
+dir_controlador = os.path.dirname(os.path.abspath(__file__))
+ruta_base = os.path.abspath(os.path.join(dir_controlador, "..", ".."))
+ruta = os.path.join(ruta_base, "mision.json")
+ruta2 = os.path.join(ruta_base, "reporte_vuelo.json")
+ruta_fotos = os.path.join(dir_controlador, "fotos_capturadas")
 try:
     with open(ruta, 'r') as f:
         datos=json.load(f)

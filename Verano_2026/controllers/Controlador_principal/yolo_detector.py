@@ -1,17 +1,27 @@
 import cv2
 import numpy as np
 import math
+# pyrefly: ignore [missing-import]
 from ultralytics import YOLO
 import os 
 import glob
 
 class YoloDetector:
     def __init__(self, model_path="yolov8n.pt", window_name="Drone Camera"):
+        dir_actual = os.path.dirname(os.path.abspath(__file__))
+        if not os.path.isabs(model_path):
+            model_path_abs = os.path.join(dir_actual, model_path)
+            if os.path.exists(model_path_abs):
+                model_path = model_path_abs
+            else:
+                model_path_base = os.path.abspath(os.path.join(dir_actual, "..", "..", model_path))
+                if os.path.exists(model_path_base):
+                    model_path = model_path_base
         self.model = YOLO(model_path)
         self.window_name = window_name
         self.clases_aceptadas = ["person", "bottle", "cup", "vase", "fire hydrant", "sports ball"]
         #cv2.namedWindow(self.window_name, cv2.WINDOW_AUTOSIZE)
-        self.ruta_fotos="/home/jpirmz/Documents/PR_Bebop/Pruebas_verano2026/Verano_2026/controllers/Controlador_principal/fotos_capturadas"
+        self.ruta_fotos = os.path.join(dir_actual, "fotos_capturadas")
         
 
     def imagenes_capturadas(self):
@@ -22,7 +32,13 @@ class YoloDetector:
             print("No se encontraron imagenes")
             return 0.0
         for n in nombres:
+            if not os.path.exists(n) or os.path.getsize(n) == 0:
+                print(f"Advertencia: El archivo {n} está vacío o no existe.")
+                continue
             img_np=cv2.imread(n)
+            if img_np is None:
+                print(f"Advertencia: No se pudo leer la imagen {n}")
+                continue
             img_width=img_np.shape[1]
             img_height=img_np.shape[0]
             puntaje=self.process_image(img_np, img_width, img_height, 0.87)
