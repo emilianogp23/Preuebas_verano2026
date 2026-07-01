@@ -44,15 +44,16 @@ def fun_costo(p):
     contador+=1
     print(f"ITERACION {contador}")
     # 1. Reconstruir a 4D a partir de 3D (x, y, z)
-    wp3d = np.reshape(p, (-1, 3)).tolist()
+    wp3d = np.reshape(p, (-1, 4)).tolist()
     wp = []
     for w in wp3d:
         x = w[0]
         y = w[1]
         z = w[2]
-        dx = 1.0 - x
-        dy = 1.0 - y
-        yaw = mt.atan2(dy, dx)
+        yaw=w[3]
+        # dx = 1.0 - x
+        # dy = 1.0 - y
+        # yaw = mt.atan2(dy, dx)
         wp.append([x, y, z, yaw])
     
     # 2. Escribir 'mision.json'
@@ -78,18 +79,27 @@ def fun_costo(p):
 
     # 5. Retornar el costo
     puntaje=detector.imagenes_capturadas()
-    peso=2.0
+    peso=3.2
     ptj=peso*puntaje
     
     # Calcular distancia teórica de la ruta (sin ruido de simulación)
     distancia_teorica = 0.0
+    segmentos=[]
     for i in range(len(wp)-1):
         distancia_teorica += mt.sqrt((wp[i+1][0]-wp[i][0])**2 + (wp[i+1][1]-wp[i][1])**2)
+        segmentos.append(mt.sqrt((wp[i+1][0]-wp[i][0])**2 + (wp[i+1][1]-wp[i][1])**2))
     # Sumar el tramo final al inicio para cerrar el circuito
     distancia_teorica += mt.sqrt((wp[0][0]-wp[-1][0])**2 + (wp[0][1]-wp[-1][1])**2)
-    
+    segmentos.append(mt.sqrt((wp[0][0]-wp[-1][0])**2 + (wp[0][1]-wp[-1][1])**2))
+    medida=distancia_teorica/len(segmentos)
+    penalizacion_distancia=0.0
+    for seg in segmentos:
+        d1=abs(seg-medida)
+        d2=d1*30
+        penalizacion_distancia+=d2
+
     # El costo ahora se basa en la distancia teórica (suave) en lugar del tiempo simulado (ruidoso)
-    costo = distancia_teorica - ptj
+    costo = distancia_teorica - ptj+penalizacion_distancia
     co=0.0
     for w in wp:
         w1=w[0]
@@ -103,7 +113,7 @@ def fun_costo(p):
     costos.append(costo)
 
     #tiempo de vuelo, puntaje 
-    print(f"Tiempo de vuelo: {tiempo_total} , Distancia teorica: {distancia_teorica} , puntaje: {puntaje}, costo: {costo} , |costo penalizacion: {co} , |puntos obtenidos: {ptj}|")
+    print(f"Tiempo de vuelo: {tiempo_total} , Distancia teorica: {distancia_teorica} , puntaje: {puntaje}, costo: {costo} , |costo penalizacion: {penalizacion_distancia} , |puntos obtenidos: {ptj}|")
   
 
     x_vals = [w[0] for w in wp]
@@ -113,6 +123,9 @@ def fun_costo(p):
 
     plt.figure(figsize=(6,6))
     plt.plot(x_vals, y_vals, marker='x', color='blue', label='Ruta')
+    for x, y in zip(x_vals[:-1], y_vals[:-1]):
+        plt.text(x, y, f"({x:.1f}, {y:.1f})", fontsize=8, ha='left', va='bottom', color='black')
+
     plt.plot(1.0, 1.0, marker='*', color='gold', markersize=15, label='Objeto') 
     ax = plt.gca()
     ax.add_patch(plt.Circle((1.0, 1.0), 1.2, color='red', fill=False, linestyle='--'))
@@ -121,7 +134,7 @@ def fun_costo(p):
     plt.xlim(-5, 7)
     plt.ylim(-5, 7)
     plt.grid(True)
-    plt.title(f"Iteración {contador} - Costo: {round(costo, 2)}")
+    plt.title(f"Iteración {contador} - Costo: {costo:.2f}")
     plt.savefig(os.path.join(ruta_historia, f"iteracion_{contador}.png"))
     plt.close()
 
@@ -138,33 +151,45 @@ if __name__ == "__main__":
     num_puntos=tray_obj.puntos_necesarios()
     puntos=tray_obj.puntos_trayectoria_circular(num_puntos)
     
-    puntos3d=[]
+    puntos4d=[]
+    nums_rand=[]
+    n=1.7
+    
    
     for i in range(len(puntos)):
         x=puntos[i][0]
         y=puntos[i][1]
         z=puntos[i][2]
-        puntos3d.append([x, y, z])
+        
+        nums_rand=np.random.uniform(0.0,n,size=2)
+       
+        if i%2==0:
+            x+=nums_rand[0]
+            y+=nums_rand[1]
+        dx=1.0-x
+        dy=1.0-y
+        yaw=mt.atan2(dy,dx)
+        puntos4d.append([x, y, z,yaw])
 
-    puntos3d=np.array(puntos3d)
+    puntos3d=np.array(puntos4d)
     wp_in=np.ravel(puntos3d)
     
 
     N = len(wp_in)
     simplex_inicial = np.zeros((N + 1, N))
     simplex_inicial[0] = wp_in
-    radio_busqueda = 1.5 # 1.5 metros de salto inicial para escapar del ruido de YOLO
+    radio_busqueda = 0.5 
     for i in range(N):
         simplex_inicial[i+1] = np.copy(wp_in)
-        simplex_inicial[i+1][i] += radio_busqueda
-    # -----------------------------------------------
-    
-    print(f" optimizando con {len(puntos3d)} puntos de control (en 3D) ")
-    # Usamos Nelder-Mead con un simplex inicial grande. 
-    # fatol y xatol aumentados para que no pierda tiempo en precisiones milimétricas que YOLO no puede percibir.
-    resultado=minimize(fun_costo, wp_in, method="Nelder-Mead", options={'maxiter':1000, 'disp':True, 'initial_simplex': simplex_inicial, 'adaptive': True, 'xatol': 0.1, 'fatol': 0.1})
+        if i %4 ==3:
+            simplex_inicial[i+1][i] += 0.0
+        else:
+            simplex_inicial[i+1][i] += 1.5
+
+    print(f" optimizando... ")
+    resultado=minimize(fun_costo, wp_in, method="Nelder-Mead", options={'maxiter':150, 'disp':True, 'initial_simplex': simplex_inicial, 'adaptive': True, 'xatol': 0.5, 'fatol': 1.0})
     print("\n")
-    print(f"RESULTADO:{np.reshape(resultado.x,(-1,3))}")
+    print(f"RESULTADO:{np.reshape(resultado.x,(-1,4))}")
     
 
     plt.plot(range(1, len(costos) + 1), costos, marker='o')
@@ -175,5 +200,168 @@ if __name__ == "__main__":
     plt.savefig(ruta_convergencia)
     plt.show()
 
+    ty_opt=np.reshape(resultado.x,(-1,4)).tolist()
+
+    x_opt = [w[0] for w in ty_opt]
+    y_opt = [w[1] for w in ty_opt]
+    x_opt.append(x_opt[0])
+    y_opt.append(y_opt[0])
+
+    plt.figure(figsize=(8,8))
+    plt.plot(x_opt, y_opt, marker='o', color='magenta', linewidth=1, label='Ruta Óptima')
+    for x, y in zip(x_opt[:-1], y_opt[:-1]):
+        plt.text(x, y, f"({x:.1f}, {y:.1f})", fontsize=6, ha='left', va='bottom', color='black')
+    plt.plot(1.0, 1.0, marker='*', color='gold', markersize=15, label='Objeto') 
+    ax = plt.gca()
+    ax.add_patch(plt.Circle((1.0, 1.0), 1.2, color='red', fill=False, linestyle='--'))
+    ax.add_patch(plt.Circle((1.0, 1.0), 5.5, color='green', fill=False, linestyle='--'))
+
+    plt.xlim(-5, 7)
+    plt.ylim(-5, 7)
+    plt.grid(True)
+    plt.legend()
+    plt.title("Trayectoria Final Optimizada")
+    ruta_trayectoria_final = os.path.join(ruta_base, "trayectoria_final.png")
+    plt.savefig(ruta_trayectoria_final)
+    plt.show()
+    diccionario={
+        "waypoints":ty_opt
+    }
+    with open(ruta_mision, "w") as f:
+        json.dump(diccionario, f)
+    
+    # 3. Llamar a Webots (subprocess)
+    video_output= os.path.join(ruta_historia, f"video_final_{contador}.mp4")
+    comando=[webots_path,  ruta_mundo]
+    print("SIMULACION FINAL")
+    subprocess.run(comando)
+
+# def fun_costo(p):
+#     global contador 
+#     contador+=1
+#     print(f"ITERACION {contador}")
+    
+#     # NUEVO: Reconstruir a partir de 2D (x, y). La Z la dejamos fija en 0.85 (tu altura_vuelo)
+#     wp2d = np.reshape(p, (-1, 2)).tolist()
+#     wp = []
+#     z_fija = 0.85 
+#     for w in wp2d:
+#         x = w[0]
+#         y = w[1]
+#         dx = 1.0 - x
+#         dy = 1.0 - y
+#         yaw = mt.atan2(dy, dx)
+#         wp.append([x, y, z_fija, yaw])
+    
+#     # 2. Escribir 'mision.json'
+#     diccionario={
+#         "waypoints":wp
+#     }
+#     with open(ruta_mision, "w") as f:
+#         json.dump(diccionario, f)
+    
+#     # 3. Llamar a Webots (subprocess)
+#     comando=[webots_path, "--mode=fast","--no-rendering","--minimize", "--batch", ruta_mundo]
+#     subprocess.run(comando)
+    
+#     # 4. Leer 'reporte_vuelo.json'
+#     with open(ruta_reporte, "r") as f:
+#         diccionario2=json.load(f)
+#         tiempo_total=diccionario2["tiempo_total"]
+
+#     # 5. Retornar el costo
+#     puntaje=detector.imagenes_capturadas()
+#     peso=2.0
+#     ptj=peso*puntaje
+    
+#     # Calcular distancia teórica
+#     distancia_teorica = 0.0
+#     for i in range(len(wp)-1):
+#         distancia_teorica += mt.sqrt((wp[i+1][0]-wp[i][0])**2 + (wp[i+1][1]-wp[i][1])**2)
+#     distancia_teorica += mt.sqrt((wp[0][0]-wp[-1][0])**2 + (wp[0][1]-wp[-1][1])**2)
+    
+#     costo = distancia_teorica - ptj
+#     co=0.0
+#     for w in wp:
+#         w1=w[0]
+#         w2=w[1]
+#         d=mt.sqrt((w1-1.0)**2+(w2-1.0)**2)
+#         if d<1.2:
+#             co += 1000.0 * (1.2 - d)**2
+#         elif d>5.5:
+#             co += 1000.0 * (d - 5.5)**2
+#     costo=costo+co
+#     costos.append(costo)
+
+#     print(f"Distancia teorica: {round(distancia_teorica,2)} | puntaje YOLO: {round(puntaje,2)} | COSTO FINAL: {round(costo,2)}")
+
+#     x_vals = [w[0] for w in wp]
+#     y_vals = [w[1] for w in wp]
+#     x_vals.append(x_vals[0])
+#     y_vals.append(y_vals[0])
+
+#     plt.figure(figsize=(6,6))
+#     plt.plot(x_vals, y_vals, marker='x', color='blue', label='Ruta')
+#     plt.plot(1.0, 1.0, marker='*', color='gold', markersize=15, label='Objeto') 
+#     ax = plt.gca()
+#     ax.add_patch(plt.Circle((1.0, 1.0), 1.2, color='red', fill=False, linestyle='--'))
+#     ax.add_patch(plt.Circle((1.0, 1.0), 5.5, color='green', fill=False, linestyle='--'))
+
+#     plt.xlim(-5, 7)
+#     plt.ylim(-5, 7)
+#     plt.grid(True)
+#     plt.title(f"Iteración {contador} - Costo: {round(costo, 2)}")
+#     plt.savefig(os.path.join(ruta_historia, f"iteracion_{contador}.png"))
+#     plt.close()
+
+#     return costo
+
+# if __name__ == "__main__":
+#     if os.path.exists(ruta_historia) is False:
+#         os.makedirs(ruta_historia)
+#     else:
+#         shutil.rmtree(ruta_historia)
+#         os.makedirs(ruta_historia)
+        
+#     num_puntos=tray_obj.puntos_necesarios()
+#     puntos=tray_obj.puntos_trayectoria_circular(num_puntos)
+    
+#     # NUEVO: Guardar solo X y Y (16 dimensiones en total)
+#     puntos2d=[]
+#     for i in range(len(puntos)):
+#         x=puntos[i][0]
+#         y=puntos[i][1]
+        
+#         if i%2==0:
+#             x+=1.5
+
+#         puntos2d.append([x, y])
+
+#     puntos2d=np.array(puntos2d)
+#     wp_in=np.ravel(puntos2d)
+    
+#     N = len(wp_in)
+#     simplex_inicial = np.zeros((N + 1, N))
+#     simplex_inicial[0] = wp_in
+#     radio_busqueda = 0.5 
+#     for i in range(N):
+#         simplex_inicial[i+1] = np.copy(wp_in)
+#         simplex_inicial[i+1][i] += radio_busqueda
+    
+#     print(f" Optimizando con {int(len(wp_in)/2)} puntos de control (Solo en 2D = {len(wp_in)} variables) ")
+    
+#     # maxiter 150 es un buen límite razonable
+#     resultado=minimize(fun_costo, wp_in, method="Nelder-Mead", options={'maxiter':100, 'disp':True, 'initial_simplex': simplex_inicial, 'adaptive': True, 'xatol': 0.1, 'fatol': 0.1})
+    
+#     print("\nRESULTADO OPTIMIZACIÓN:")
+#     print(np.reshape(resultado.x,(-1,2)))
+    
+#     plt.plot(range(1, len(costos) + 1), costos, marker='o')
+#     plt.xlabel("Iteraciones")
+#     plt.ylabel("Costo (Error)")
+#     plt.title("Convergencia del Algoritmo de Optimización")
+#     plt.grid(True)
+#     plt.savefig(ruta_convergencia)
+#     print("¡Terminado! Revisa la gráfica de convergencia.")
 
     

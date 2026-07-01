@@ -14,10 +14,11 @@ WorldInfo {
     "This simulation allows you to pilot the drone with your keyboard."
   ]
   title "Crazyflie"
+  basicTimeStep 50
 }
 Viewpoint {
   orientation -0.2319814931767784 0.26609180055509923 0.9356173045112076 1.685768685597268
-  position 1.4741749221758855 -23.27395965588971 14.475031171123662
+  position 0.24956767452665019 -4.0170365442222025 3.1468241874944116
   follow "Crazyflie"
 }
 TexturedBackground {

@@ -101,28 +101,53 @@ class YoloDetector:
                 p_medio2=punto_medio_img-35
                 puntaje_act=0
 
-                if y1>borde_vertical and y2<img_height-borde_vertical:
-                    foto_buena=True
-                    altura=img_height
-                    altura_obj=y2-y1
-                    porc=(altura_obj/altura)*100
-                    
-                    # Evaluacion de altura de objeto
-                    error_altura = abs(porc - 70.0)
-                    # Tolerancia más amplia
-                    puntaje_altura = max(0.0, 5.0 - (error_altura / 10.0))
-                    puntaje_act += puntaje_altura
-                     
-                    # Evaluacion de centrado horizontal 
-                    error_centrado = abs(punto_medio_obj - punto_medio_img)
-                    puntaje_centrado = max(0.0, 5.0 - (error_centrado / (img_width / 15.0)))
-                    puntaje_act += puntaje_centrado
-                    
-                    if puntaje_act>puntaje:
-                        puntaje=puntaje_act
+
+                altura=img_height
+                altura_obj=y2-y1
+                porc=(altura_obj/altura)*100
+                margen=8
+                foto_mala=False
+
+                if y1 <=margen or y2>=altura-margen:
+                    foto_mala=True
                 
-                else:
-                    foto_buena=False
+                # Evaluacion de altura de objeto
+                error_altura = abs(porc - 60.0)
+                # Tolerancia más amplia
+                puntaje_altura = max(0.0, 5.0 - (error_altura / 18.0))
+                puntaje_act += puntaje_altura
+                    
+                # Evaluacion de centrado horizontal 
+                error_centrado = abs(punto_medio_obj - punto_medio_img)
+                puntaje_centrado = max(0.0, 5.0 - (error_centrado / (img_width / 6.0)))
+                puntaje_act =puntaje_altura+puntaje_centrado
+                if foto_mala:
+                    puntaje_act=puntaje_act*0.1
+                if puntaje_act>puntaje:
+                    puntaje=puntaje_act
+
+                # if y1>borde_vertical and y2<img_height-borde_vertical:
+                #     foto_buena=True
+                #     altura=img_height
+                #     altura_obj=y2-y1
+                #     porc=(altura_obj/altura)*100
+                    
+                #     # Evaluacion de altura de objeto
+                #     error_altura = abs(porc - 70.0)
+                #     # Tolerancia más amplia
+                #     puntaje_altura = max(0.0, 5.0 - (error_altura / 10.0))
+                #     puntaje_act += puntaje_altura
+                     
+                #     # Evaluacion de centrado horizontal 
+                #     error_centrado = abs(punto_medio_obj - punto_medio_img)
+                #     puntaje_centrado = max(0.0, 5.0 - (error_centrado / (img_width / 15.0)))
+                #     puntaje_act += puntaje_centrado
+                    
+                #     if puntaje_act>puntaje:
+                #         puntaje=puntaje_act
+                
+                # else:
+                #     foto_buena=False
 
         return puntaje
 
