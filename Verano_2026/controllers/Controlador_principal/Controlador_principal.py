@@ -82,7 +82,7 @@ try:
         datos=json.load(f)
         waypoints = datos["waypoints"]
 except:
-    waypoints=[[0.0,0.0,0.0,0.0]]
+    waypoints=[[0.0,0.0,0.0]]
     print("No se encontraron waypoints")
     sys.exit()
 
@@ -120,6 +120,7 @@ while robot.step(timestep) != -1:
 timepo_pas=robot.getTime()
 past_x=gps.getValues()[0]
 past_y=gps.getValues()[1]
+past_z=gps.getValues()[2]
 
 #variables para trayectoria 4D
 t_vuelo=0.0
@@ -133,6 +134,14 @@ for archivo in archivos_anteriores:
     os.remove(archivo)
 print("Carpeta limpia ")
 
+#Variables para captura de fotos
+contador_fotos=0
+ps_ini=[past_x,past_y,past_z]
+espacio_fotos=1.0 #metros
+
+
+
+
 while robot.step(timestep) != -1:
 
     t_act=robot.getTime()
@@ -145,6 +154,9 @@ while robot.step(timestep) != -1:
     x=gps.getValues()[0]
     y=gps.getValues()[1]
     z=gps.getValues()[2]
+    dx=1.0
+    dy=1.0
+    yd=mt.atan2(dy-y,dx-x)
 
     giroscopio=gyro.getValues()
     ax=acelerometro.getValues()[0]
@@ -156,16 +168,26 @@ while robot.step(timestep) != -1:
     wz=giroscopio[2]
 
     #odom=odom_obj.update(dt, [ax,ay,az], [roll,pitch,yaw])  #cmbios de prueba
-    pos_act=[x,y,z,yaw]#odom[0]
+    pos_act=[x,y,z]#odom[0]
+
     #vel_act=odom[1]  #cmbios de prueba
 
+    dist_recorrida=mt.sqrt((ps_ini[0]-x)**2 + (ps_ini[1]-y)**2 + (ps_ini[2]-z)**2)
+    if dist_recorrida>=espacio_fotos:
+        camera.saveImage(os.path.join(ruta_fotos, f"foto_{contador_fotos:04d}.png"), 100)
+        print(f"Foto {contador_fotos} guardada")
+        contador_fotos += 1
+        ps_ini=[x,y,z]
+        dist_recorrida=0.0  
+    
     if indice_wp < len(puntos):
-        destino=list(puntos[indice_wp])
+        destino=list(puntos[indice_wp][:3])
+        
         if funcionando==False:
             distancia_total = mt.sqrt((destino[0] - x)**2 + (destino[1] - y)**2)
             t_vuelo = max(distancia_total / vel_dron, 4.0) 
-            dist_yaw=normalizar_angulos(destino[3]-pos_act[3])
-            destino[3]=pos_act[3]+dist_yaw
+            #dist_yaw=normalizar_angulos(destino[3]-pos_act[3])
+            #destino[3]=pos_act[3]+dist_yaw
 
             a0,a1,a2,a3=Generador.generar_tray(pos_act,destino,t_vuelo)
             t_inicial=t_act
@@ -177,15 +199,15 @@ while robot.step(timestep) != -1:
         x_des=pos_des[0]
         y_des=pos_des[1]
         z_des=pos_des[2]
-        w_des=normalizar_angulos(pos_des[3])
+        w_des=normalizar_angulos(yd)
+        # w_des=normalizar_angulos(pos_des[3])
         #w_des=mt.atan2(pos_y-pos_act[1],pos_x-pos_act[0])
         #w_des=yaw
         
 
         dist_destino=mt.sqrt((destino[0]-pos_act[0])**2+(destino[1]-pos_act[1])**2)
-        if dist_destino < 0.2 and t_tray>=t_vuelo:
+        if dist_destino < 0.2 or ((t_act - t_inicial) > (t_vuelo + 3.0)):
             indice_wp += 1
-            camera.saveImage(f"{ruta_fotos}/wp_{indice_wp}.png", 100)
             funcionando=False
     else:
         apagar_motores(m1,m2,m3,m4)

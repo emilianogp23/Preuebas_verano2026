@@ -30,7 +30,7 @@ class YoloDetector:
         nombres=glob.glob(img)
         if len(nombres)==0:
             print("No se encontraron imagenes")
-            return 0.0
+            return -100.0
         for n in nombres:
             if not os.path.exists(n) or os.path.getsize(n) == 0:
                 print(f"Advertencia: El archivo {n} está vacío o no existe.")
@@ -42,13 +42,20 @@ class YoloDetector:
             img_width=img_np.shape[1]
             img_height=img_np.shape[0]
             puntaje=self.process_image(img_np, img_width, img_height, 0.87)
+            
+            # Penalizar fuertemente si no hay detecciones en la foto
+            if puntaje == 0.0:
+                puntaje = -10.0
+                
             self.mejores_puntajes.append(puntaje)
-        # En lugar de promediar solo las 5 mejores, promediamos TODAS.
-        # Si ignoramos las peores fotos, el optimizador no tiene incentivo (gradiente) para mejorarlas.
+        
+        # En lugar de promediar, SUMAMOS todos los puntajes. 
+        # Asi el optimizador es recompensado por cada foto adicional que logre capturar al humano,
+        # y es fuertemente penalizado por cada foto en la que falte.
         if len(self.mejores_puntajes) > 0:
-            puntaje_final = sum(self.mejores_puntajes) / len(self.mejores_puntajes)
+            puntaje_final = sum(self.mejores_puntajes)
         else:
-            puntaje_final = 0.0
+            puntaje_final = -100.0
             
         return puntaje_final
 
@@ -102,37 +109,41 @@ class YoloDetector:
                 puntaje_act=0
 
 
-                altura=img_height
-                altura_obj=y2-y1
-                porc=(altura_obj/altura)*100
-                margen=8
-                foto_mala=False
-
-                if y1 <=margen or y2>=altura-margen:
-                    foto_mala=True
+                altura = img_height
+                altura_obj = y2 - y1
+                porc = (altura_obj / altura) * 100.0
                 
-                # Evaluacion de altura de objeto
+                # Evaluacion de altura de objeto (Deseado: 60% de la altura de la imagen)
                 error_altura = abs(porc - 60.0)
-                # Tolerancia más amplia
-                puntaje_altura = max(0.0, 5.0 - (error_altura / 18.0))
-                puntaje_act += puntaje_altura
+                # 5.0 puntos si es perfecto (error 0). 
+                # Si el error es 40% (ej. el objeto ocupa 20% o 100%), restamos 10 puntos -> puntaje -5.0
+                puntaje_altura = 5.0 - (error_altura / 40.0) * 10.0
                     
                 # Evaluacion de centrado horizontal 
                 error_centrado = abs(punto_medio_obj - punto_medio_img)
-                puntaje_centrado = max(0.0, 5.0 - (error_centrado / (img_width / 6.0)))
+                max_err_h = img_width / 2.0
+                # 5.0 puntos si está en el centro.
+                # Si está en el borde (error_centrado = max_err_h), restamos 15 puntos -> puntaje -10.0
+                puntaje_centrado = 5.0 - (error_centrado / max_err_h) * 15.0
 
                 # Evaluacion de centrado vertical
-                punto_medio_img_v = img_height / 2
-                punto_medio_obj_v = (y2 + y1) / 2
+                punto_medio_img_v = img_height / 2.0
+                punto_medio_obj_v = (y2 + y1) / 2.0
                 error_centrado_v = abs(punto_medio_obj_v - punto_medio_img_v)
-                puntaje_centrado_v = max(0.0, 5.0 - (error_centrado_v / (img_height / 6.0)))
+                max_err_v = img_height / 2.0
+                puntaje_centrado_v = 5.0 - (error_centrado_v / max_err_v) * 15.0
                 
-                # Sumar los 3 puntajes
+                # Sumar los 3 puntajes (puede ser negativo si está muy mal encuadrado)
                 puntaje_act = puntaje_altura + puntaje_centrado + puntaje_centrado_v
-                if foto_mala:
-                    puntaje_act=puntaje_act*0.1
-                if puntaje_act>puntaje:
-                    puntaje=puntaje_act
+                
+                # Penalización extra si de plano toca los márgenes (casi fuera de cámara)
+                margen_h = img_width * 0.05
+                margen_v = img_height * 0.05
+                if x1 <= margen_h or x2 >= img_width - margen_h or y1 <= margen_v or y2 >= img_height - margen_v:
+                    puntaje_act -= 10.0
+
+                if puntaje_act > puntaje or puntaje == 0:
+                    puntaje = puntaje_act
 
                 # if y1>borde_vertical and y2<img_height-borde_vertical:
                 #     foto_buena=True
