@@ -120,7 +120,15 @@ class YoloDetector:
                 # Evaluacion de centrado horizontal 
                 error_centrado = abs(punto_medio_obj - punto_medio_img)
                 puntaje_centrado = max(0.0, 5.0 - (error_centrado / (img_width / 6.0)))
-                puntaje_act =puntaje_altura+puntaje_centrado
+
+                # Evaluacion de centrado vertical
+                punto_medio_img_v = img_height / 2
+                punto_medio_obj_v = (y2 + y1) / 2
+                error_centrado_v = abs(punto_medio_obj_v - punto_medio_img_v)
+                puntaje_centrado_v = max(0.0, 5.0 - (error_centrado_v / (img_height / 6.0)))
+                
+                # Sumar los 3 puntajes
+                puntaje_act = puntaje_altura + puntaje_centrado + puntaje_centrado_v
                 if foto_mala:
                     puntaje_act=puntaje_act*0.1
                 if puntaje_act>puntaje:

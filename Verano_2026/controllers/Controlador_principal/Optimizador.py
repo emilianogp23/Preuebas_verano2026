@@ -43,17 +43,27 @@ def fun_costo(p):
     global contador 
     contador+=1
     print(f"ITERACION {contador}")
-    # 1. Reconstruir a 4D a partir de 3D (x, y, z)
-    wp3d = np.reshape(p, (-1, 4)).tolist()
+    # 1. Reconstruir a 3D a partir del vector p
+    wp3d = np.reshape(p, (-1, 3)).tolist()
+    v=0.0
     wp = []
     for w in wp3d:
         x = w[0]
         y = w[1]
         z = w[2]
-        yaw=w[3]
-        # dx = 1.0 - x
-        # dy = 1.0 - y
-        # yaw = mt.atan2(dy, dx)
+        
+        # Calcular el yaw para que siempre apunte al objeto en (1, 1)
+        dx = 1.0 - x
+        dy = 1.0 - y
+        yaw = mt.atan2(dy, dx)
+        
+        if z<0.4:
+            v+=10000*(0.4-z)**2
+            z=0.4
+        elif z>2.5:
+            v+=10000*(z-2.5)**2
+            z=2.5
+
         wp.append([x, y, z, yaw])
     
     # 2. Escribir 'mision.json'
@@ -94,8 +104,8 @@ def fun_costo(p):
     medida=distancia_teorica/len(segmentos)
     penalizacion_distancia=0.0
     for seg in segmentos:
-        d1=abs(seg-medida)
-        d2=d1*30
+        d1=seg-medida
+        d2=(d1**2)*10 # Penalización elástica (cuadrática)
         penalizacion_distancia+=d2
 
     # El costo ahora se basa en la distancia teórica (suave) en lugar del tiempo simulado (ruidoso)
@@ -104,16 +114,19 @@ def fun_costo(p):
     for w in wp:
         w1=w[0]
         w2=w[1]
+        w3=w[2]
         d=mt.sqrt((w1-1.0)**2+(w2-1.0)**2)
         if d<1.2:
             co += 1000.0 * (1.2 - d)**2
         elif d>5.5:
             co += 1000.0 * (d - 5.5)**2
-    costo=costo+co
+        if w3>2.5 or w3<0.4:
+            co+=1000.0*(w3-0.3)
+    costo=costo+co+v
     costos.append(costo)
 
     #tiempo de vuelo, puntaje 
-    print(f"Tiempo de vuelo: {tiempo_total} , Distancia teorica: {distancia_teorica} , puntaje: {puntaje}, costo: {costo} , |costo penalizacion: {penalizacion_distancia} , |puntos obtenidos: {ptj}|")
+    print(f"Tiempo de vuelo: {tiempo_total:.2f} , Distancia teorica: {distancia_teorica:.2f} , puntaje: {puntaje:.1f}, costo: {costo:.2f} , |costo penalizacion: {penalizacion_distancia:.2f} , |puntos obtenidos: {ptj:.2f}|")
   
 
     x_vals = [w[0] for w in wp]
@@ -151,7 +164,7 @@ if __name__ == "__main__":
     num_puntos=tray_obj.puntos_necesarios()
     puntos=tray_obj.puntos_trayectoria_circular(num_puntos)
     
-    puntos4d=[]
+    puntos_opt=[]
     nums_rand=[]
     n=1.7
     
@@ -166,12 +179,11 @@ if __name__ == "__main__":
         if i%2==0:
             x+=nums_rand[0]
             y+=nums_rand[1]
-        dx=1.0-x
-        dy=1.0-y
-        yaw=mt.atan2(dy,dx)
-        puntos4d.append([x, y, z,yaw])
+        
+        # Solo agregamos x, y, z. El yaw se calcula en fun_costo
+        puntos_opt.append([x, y, z])
 
-    puntos3d=np.array(puntos4d)
+    puntos3d=np.array(puntos_opt)
     wp_in=np.ravel(puntos3d)
     
 
@@ -187,28 +199,40 @@ if __name__ == "__main__":
             simplex_inicial[i+1][i] += 1.5
 
     print(f" optimizando... ")
-    resultado=minimize(fun_costo, wp_in, method="Nelder-Mead", options={'maxiter':150, 'disp':True, 'initial_simplex': simplex_inicial, 'adaptive': True, 'xatol': 0.5, 'fatol': 1.0})
+    resultado=minimize(fun_costo, wp_in, method="Nelder-Mead", options={'maxiter':250, 'disp':True, 'initial_simplex': simplex_inicial, 'adaptive': True, 'xatol': 0.5, 'fatol': 1.0})
     print("\n")
-    print(f"RESULTADO:{np.reshape(resultado.x,(-1,4))}")
+    print(f"RESULTADO:{np.reshape(resultado.x,(-1,3))}")
     
 
     plt.plot(range(1, len(costos) + 1), costos, marker='o')
     plt.xlabel("Iteraciones")
     plt.ylabel("Costo (Error)")
-    plt.title("Convergencia del Algoritmo de Optimización")
+    plt.title("Convergencia")
     plt.grid(True)
     plt.savefig(ruta_convergencia)
     plt.show()
 
-    ty_opt=np.reshape(resultado.x,(-1,4)).tolist()
+    ty_opt=np.reshape(resultado.x,(-1,3)).tolist()
 
-    x_opt = [w[0] for w in ty_opt]
-    y_opt = [w[1] for w in ty_opt]
+    # Recalculamos el yaw final para guardar la misión completa en 4D
+    wp_final = []
+    for w in ty_opt:
+        x = w[0]
+        y = w[1]
+        z = w[2]
+        dx = 1.0 - x
+        dy = 1.0 - y
+        yaw = mt.atan2(dy, dx)
+        wp_final.append([x, y, z, yaw])
+
+    x_opt = [w[0] for w in wp_final]
+    y_opt = [w[1] for w in wp_final]
     x_opt.append(x_opt[0])
     y_opt.append(y_opt[0])
 
     plt.figure(figsize=(8,8))
     plt.plot(x_opt, y_opt, marker='o', color='magenta', linewidth=1, label='Ruta Óptima')
+    plt.text(-5.0,5.0,f"Costo total: {resultado.fun:.2f} ",fontsize=12, ha='left', va='bottom', color='red')
     for x, y in zip(x_opt[:-1], y_opt[:-1]):
         plt.text(x, y, f"({x:.1f}, {y:.1f})", fontsize=6, ha='left', va='bottom', color='black')
     plt.plot(1.0, 1.0, marker='*', color='gold', markersize=15, label='Objeto') 
@@ -225,7 +249,7 @@ if __name__ == "__main__":
     plt.savefig(ruta_trayectoria_final)
     plt.show()
     diccionario={
-        "waypoints":ty_opt
+        "waypoints":wp_final
     }
     with open(ruta_mision, "w") as f:
         json.dump(diccionario, f)

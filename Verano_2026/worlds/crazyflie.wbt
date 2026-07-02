@@ -1,6 +1,6 @@
 #VRML_SIM R2025a utf8
 
-EXTERNPROTO "../protos/Crazyflie.proto"
+EXTERNPROTO "c:/Users/marco/Desktop/Verano2026/Preuebas_verano2026/Verano_2026/protos/Crazyflie.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
@@ -14,11 +14,11 @@ WorldInfo {
     "This simulation allows you to pilot the drone with your keyboard."
   ]
   title "Crazyflie"
-  basicTimeStep 50
+  basicTimeStep 40
 }
 Viewpoint {
-  orientation -0.2319814931767784 0.26609180055509923 0.9356173045112076 1.685768685597268
-  position 0.24956767452665019 -4.0170365442222025 3.1468241874944116
+  orientation -0.2256183941848099 0.17190319867360399 0.958929418930951 2.0755232507416745
+  position 10.68082304413903 -19.381091161320892 14.530989767092466
   follow "Crazyflie"
 }
 TexturedBackground {
@@ -36,7 +36,7 @@ Crazyflie {
   ]
 }
 RectangleArena {
-  floorSize 15 15
+  floorSize 20 20
   floorAppearance Parquetry {
     type "light strip"
   }
