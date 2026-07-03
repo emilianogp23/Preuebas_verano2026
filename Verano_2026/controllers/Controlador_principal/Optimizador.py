@@ -1,3 +1,4 @@
+
 from scipy.optimize import _minimize
 import numpy as np 
 import json 
@@ -65,8 +66,8 @@ def fun_costo(p):
 
         if z <0.5:
             h+=abs(0.5-z)*500.0
-        elif z>2.5:
-            h+=abs(2.5-z)*500.0
+        elif z>1.5:
+            h+=abs(1.5-z)*500.0
         
         if dist_r<2.2:
             h+=abs(2.2-dist_r)*500.0
@@ -89,7 +90,7 @@ def fun_costo(p):
     penalizacion_distancia=0.0
     for seg in segmentos:
         d1=seg-medida
-        d2=(d1**2)*10 # Penalización elástica (cuadrática)
+        d2=(d1**2)*4 # Penalización elástica (cuadrática)
         penalizacion_distancia+=d2
         
     # Penalizar si los segmentos entre waypoints cruzan la zona prohibida (radio 2.2)
@@ -206,32 +207,34 @@ if __name__ == "__main__":
         y=puntos[i][1]
         z=puntos[i][2]
         
-        nums_rand=np.random.uniform(0.0,n,size=2)
-       
+        # Agregamos ruido aleatorio seguro para que la trayectoria inicie "extraña"
+        # y veamos cómo el optimizador la arregla hacia un círculo
         if i%2==0:
-            x+=nums_rand[0]
-            y+=nums_rand[1]
-        
-        # Solo agregamos x, y, z. El yaw se calcula en fun_costo
+            dx = x - 1.0
+            dy = y - 1.0
+            r = mt.sqrt(dx**2 + dy**2)
+            theta = mt.atan2(dy, dx)
+            
+            # Variamos el radio y el ángulo aleatoriamente
+            r += np.random.uniform(-1.0, 1.0)
+            # Aseguramos que se mantenga dentro del margen seguro (2.3 a 5.4)
+            # para no causar penalizaciones de validación en la iteración 1
+            r = np.clip(r, 2.3, 5.4)
+            theta += np.random.uniform(-0.5, 0.5)
+            
+            x = 1.0 + r * mt.cos(theta)
+            y = 1.0 + r * mt.sin(theta)
+            
         puntos_opt.append([x, y, z])
 
     puntos3d=np.array(puntos_opt)
     wp_in=np.ravel(puntos3d)
     
-
-    N = len(wp_in)
-    simplex_inicial = np.zeros((N + 1, N))
-    simplex_inicial[0] = wp_in
-    radio_busqueda = 0.5 
-    for i in range(N):
-        simplex_inicial[i+1] = np.copy(wp_in)
-        if i %3 ==2:
-            simplex_inicial[i+1][i] += 0.0
-        else:
-            simplex_inicial[i+1][i] += 1.0
-
-    print(f" optimizando... ")
-    resultado=minimize(fun_costo, wp_in, method="Nelder-Mead", options={'maxiter':250, 'disp':True, 'initial_simplex': simplex_inicial, 'adaptive': True, 'xatol': 0.5, 'fatol': 1.0})
+    print(f" optimizando con COBYLA... ")
+    # COBYLA es mucho más agresivo e inteligente para problemas de muchas variables.
+    # 'rhobeg' es el tamaño del paso inicial (0.5 metros), lo que garantiza que explore
+    # cambios más grandes desde el principio.
+    resultado=minimize(fun_costo, wp_in, method="COBYLA", options={'rhobeg': 0.5, 'maxiter':250, 'disp':True})
     print("\n")
     print(f"RESULTADO:{np.reshape(resultado.x,(-1,3))}")
     
