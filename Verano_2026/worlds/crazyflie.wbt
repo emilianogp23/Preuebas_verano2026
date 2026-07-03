@@ -1,6 +1,6 @@
 #VRML_SIM R2025a utf8
 
-EXTERNPROTO "../protos/Crazyflie.proto"
+EXTERNPROTO "c:/Users/marco/Desktop/Verano2026/Preuebas_verano2026/Verano_2026/protos/Crazyflie.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
@@ -26,7 +26,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Crazyflie {
-  translation 9.378946512460046e-18 9.382307661211765e-17 0.06499019000000002
+  translation -2 -2 0.0649902
   rotation 6.959880338775085e-16 9.925218109913464e-17 1 1.5770703061004254
   controller "Controlador_principal"
   supervisor TRUE
@@ -48,6 +48,7 @@ RectangleArena {
   }
 }
 SquareManhole {
+  translation -2 -2 0
   size 0.6 0.6 0.1
 }
 Transform {

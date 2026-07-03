@@ -27,11 +27,14 @@ class control_trayectoria:
         puntos=mt.ceil(puntos)
         return puntos
     
-    def puntos_trayectoria_circular(self,numero_puntos):
+    def puntos_trayectoria_circular(self,numero_puntos, start_pos=(-2.0, -2.0)):
         separacion=(2.0*mt.pi)/numero_puntos
         trayectoria=[]
+        # Calcular el angulo inicial basado en la posicion del dron
+        angulo_inicio = mt.atan2(start_pos[1] - self.posy, start_pos[0] - self.posx)
+
         for n in range(numero_puntos):
-            angulo_actual=n*separacion
+            angulo_actual=angulo_inicio + n*separacion
             xn=(self.d*mt.cos(angulo_actual))+self.posx
             yn=(self.d*mt.sin(angulo_actual))+self.posy
             zn=self.altura_vuelo

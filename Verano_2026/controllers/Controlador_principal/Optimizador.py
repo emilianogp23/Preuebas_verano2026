@@ -68,8 +68,8 @@ def fun_costo(p):
         elif z>2.5:
             h+=abs(2.5-z)*500.0
         
-        if dist_r<0.7:
-            h+=abs(0.7-dist_r)*500.0
+        if dist_r<2.2:
+            h+=abs(2.2-dist_r)*500.0
         elif dist_r>5.5:
             h+=abs(5.5-dist_r)*500.0
     
@@ -92,10 +92,31 @@ def fun_costo(p):
         d2=(d1**2)*10 # Penalización elástica (cuadrática)
         penalizacion_distancia+=d2
         
+    # Penalizar si los segmentos entre waypoints cruzan la zona prohibida (radio 2.2)
+    # Incluimos el punto de despegue en (-2, -2) para asegurar la llegada al primer punto
+    wp_con_inicio = [[-2.0, -2.0, 0.85]] + wp + [wp[0]]
+    for i in range(len(wp_con_inicio) - 1):
+        p1 = wp_con_inicio[i]
+        p2 = wp_con_inicio[i+1]
+        x1, y1 = p1[0], p1[1]
+        x2, y2 = p2[0], p2[1]
+        cx, cy = 1.0, 1.0
+        dx = x2 - x1
+        dy = y2 - y1
+        l2 = dx*dx + dy*dy
+        if l2 > 0:
+            t = max(0, min(1, ((cx - x1)*dx + (cy - y1)*dy) / l2))
+            px = x1 + t * dx
+            py = y1 + t * dy
+            dist_seg = mt.sqrt((px - cx)**2 + (py - cy)**2)
+            if dist_seg < 2.2:
+                h += abs(2.2 - dist_seg) * 500.0
+
     if h>0:
       ptj=peso*(-100.0)
       costo=-ptj+penalizacion_distancia+h
       costos.append(costo)
+      print(f"Posicion invalida: {contador} - Costo: {costo:.2f}")
       return costo 
     
     # 2. Escribir 'mision.json'
@@ -152,7 +173,7 @@ def fun_costo(p):
 
     plt.plot(1.0, 1.0, marker='*', color='gold', markersize=15, label='Objeto') 
     ax = plt.gca()
-    ax.add_patch(plt.Circle((1.0, 1.0), 1.2, color='red', fill=False, linestyle='--'))
+    ax.add_patch(plt.Circle((1.0, 1.0), 2.2, color='red', fill=False, linestyle='--'))
     ax.add_patch(plt.Circle((1.0, 1.0), 5.5, color='green', fill=False, linestyle='--'))
 
     plt.xlim(-5, 7)
@@ -248,7 +269,7 @@ if __name__ == "__main__":
         plt.text(x, y, f"({x:.1f}, {y:.1f})", fontsize=6, ha='left', va='bottom', color='black')
     plt.plot(1.0, 1.0, marker='*', color='gold', markersize=15, label='Objeto') 
     ax = plt.gca()
-    ax.add_patch(plt.Circle((1.0, 1.0), 1.2, color='red', fill=False, linestyle='--'))
+    ax.add_patch(plt.Circle((1.0, 1.0), 1.5, color='red', fill=False, linestyle='--'))
     ax.add_patch(plt.Circle((1.0, 1.0), 5.5, color='green', fill=False, linestyle='--'))
 
     plt.xlim(-5, 7)
