@@ -1,4 +1,3 @@
-
 from scipy.optimize import _minimize
 import numpy as np 
 import json 
@@ -11,6 +10,7 @@ from yolo_detector import YoloDetector
 import matplotlib.pyplot as plt
 import shutil
 import os 
+from scipy.optimize import differential_evolution
 
 # Rutas dinámicas
 dir_controlador = os.path.dirname(os.path.abspath(__file__))
@@ -41,41 +41,54 @@ tray_obj = control_trayectoria()
 contador=0
 costos=[]
 
+# Array global para guardar los angulos base fijos de la trayectoria circular
+angulos_base = []
 
 def fun_costo(p):
-    global contador 
+    global contador, angulos_base
     contador+=1
     print(f"ITERACION {contador}")
     peso=3.2
 
-    # 1. Reconstruir a partir del vector p
-    wp3d = np.reshape(p, (-1, 3)).tolist()
+    # 1. Reconstruir a partir del vector p (ahora contiene [r0, z0, r1, z1, ...])
+    # Como son 2 variables (radio y Z) por punto
+    wp_polar = np.reshape(p, (-1, 2)).tolist()
 
     wp = []
     h=0.0 #Penalizacion limites de volumen
+    penalizacion_suavidad = 0.0
 
-    for w in wp3d:
-        x = w[0]
-        y = w[1]
-        z = w[2]
-        # dx = 1.0 - x
-        # dy = 1.0 - y
-        # yaw = mt.atan2(dy, dx)
+    for i, polar in enumerate(wp_polar):
+        r = polar[0]
+        z = polar[1]
+        theta = angulos_base[i]
+        
+        x = 1.0 + r * mt.cos(theta)
+        y = 1.0 + r * mt.sin(theta)
 
-        dist_r=mt.sqrt((x-1.0)**2+(y-1.0)**2)
-
+        # Restricciones en Z
         if z <0.5:
             h+=abs(0.5-z)*500.0
-        elif z>1.5:
-            h+=abs(1.5-z)*500.0
+        elif z>1.0:
+            h+=abs(1.0-z)*500.0
         
-        if dist_r<2.2:
-            h+=abs(2.2-dist_r)*500.0
-        elif dist_r>5.5:
-            h+=abs(5.5-dist_r)*500.0
-    
-     
-        wp.append([x, y, z])#,yaw])
+        # Restricciones en R (aunque los limites del optimizador ya evitan esto, lo dejamos por seguridad)
+        if r<1.2:
+            h+=abs(1.2-r)*500.0
+        elif r>5.5:
+            h+=abs(5.5-r)*500.0
+
+        # Penalización por cambios bruscos (Suavidad)
+        if i > 0:
+            r_prev = wp_polar[i-1][0]
+            z_prev = wp_polar[i-1][1]
+            # Si cambia mucho el radio o la altura entre un waypoint y el siguiente
+            if abs(r - r_prev) > 1.5:
+                penalizacion_suavidad += (abs(r - r_prev) - 1.5) * 100.0
+            if abs(z - z_prev) > 0.4:
+                penalizacion_suavidad += (abs(z - z_prev) - 0.4) * 100.0
+            
+        wp.append([x, y, z])
 
     # Calcular distancia teórica de la ruta (sin ruido de simulación)
     distancia_teorica = 0.0
@@ -86,15 +99,17 @@ def fun_costo(p):
     # Sumar el tramo final al inicio para cerrar el circuito
     distancia_teorica += mt.sqrt((wp[0][0]-wp[-1][0])**2 + (wp[0][1]-wp[-1][1])**2)
     segmentos.append(mt.sqrt((wp[0][0]-wp[-1][0])**2 + (wp[0][1]-wp[-1][1])**2))
-    medida=distancia_teorica/len(segmentos)
+    
     penalizacion_distancia=0.0
-    for seg in segmentos:
-        d1=seg-medida
-        d2=(d1**2)*4 # Penalización elástica (cuadrática)
-        penalizacion_distancia+=d2
+    minim=0.4
+    for i in range(len(wp)):
+        for j in range(i+1,len(wp)):
+            di=mt.sqrt((wp[i][0]-wp[j][0])**2+(wp[i][1]-wp[j][1])**2)
+            if di<minim:
+                penalizacion_distancia+=(minim-di)*500.0
+            
         
-    # Penalizar si los segmentos entre waypoints cruzan la zona prohibida (radio 2.2)
-    # Incluimos el punto de despegue en (-2, -2) para asegurar la llegada al primer punto
+    # Penalizar si los segmentos entre waypoints cruzan la zona prohibida (radio 1.2)
     wp_con_inicio = [[-2.0, -2.0, 0.85]] + wp + [wp[0]]
     for i in range(len(wp_con_inicio) - 1):
         p1 = wp_con_inicio[i]
@@ -110,12 +125,12 @@ def fun_costo(p):
             px = x1 + t * dx
             py = y1 + t * dy
             dist_seg = mt.sqrt((px - cx)**2 + (py - cy)**2)
-            if dist_seg < 2.2:
-                h += abs(2.2 - dist_seg) * 500.0
+            if dist_seg < 1.2:
+                h += abs(1.2 - dist_seg) * 500.0
 
     if h>0:
       ptj=peso*(-100.0)
-      costo=-ptj+penalizacion_distancia+h
+      costo=-ptj+h+penalizacion_distancia+penalizacion_suavidad
       costos.append(costo)
       print(f"Posicion invalida: {contador} - Costo: {costo:.2f}")
       return costo 
@@ -146,35 +161,30 @@ def fun_costo(p):
     
     ptj=peso*puntaje
     
-  
-
-    # El costo ahora se basa en la distancia teórica (suave) en lugar del tiempo simulado (ruidoso)
-    costo = -ptj+penalizacion_distancia+h
+    # El costo ahora se basa en el puntaje, volumen e irregularidades (ruidos)
+    costo = -ptj+h+penalizacion_distancia+penalizacion_suavidad
     
     costos.append(costo)
 
     #tiempo de vuelo, puntaje 
-    print(f"Tiempo de vuelo: {tiempo_total:.2f} , Distancia teorica: {distancia_teorica:.2f} , puntaje: {puntaje:.1f}, costo: {costo:.2f} , |costo penalizacion: {penalizacion_distancia:.2f} , |puntos obtenidos: {ptj:.2f}|")
+    print(f"Tiempo de vuelo: {tiempo_total:.2f} , Distancia teorica: {distancia_teorica:.2f} , puntaje: {puntaje:.1f}, costo: {costo:.2f}  , |puntos obtenidos: {ptj:.2f}|")
   
-
     x_vals = [w[0] for w in wp]
     y_vals = [w[1] for w in wp]
     z_vals=[w[2] for w in wp]
-    # yaw_vals=[w[3] for w in wp]
 
     x_vals.append(x_vals[0])
     y_vals.append(y_vals[0])
     z_vals.append(z_vals[0])
-    # yaw_vals.append(yaw_vals[0])
     
     plt.figure(figsize=(6,6))
     plt.plot(x_vals, y_vals, marker='x', color='blue', label='Ruta')
-    for x, y, z in zip(x_vals[:-1], y_vals[:-1], z_vals[:-1]):#,yaw_vals[:-1]):
+    for x, y, z in zip(x_vals[:-1], y_vals[:-1], z_vals[:-1]):
         plt.text(x, y, f"({x:.1f}, {y:.1f},{z:.1f})", fontsize=8, ha='left', va='bottom', color='black')
 
     plt.plot(1.0, 1.0, marker='*', color='gold', markersize=15, label='Objeto') 
     ax = plt.gca()
-    ax.add_patch(plt.Circle((1.0, 1.0), 2.2, color='red', fill=False, linestyle='--'))
+    ax.add_patch(plt.Circle((1.0, 1.0), 1.2, color='red', fill=False, linestyle='--'))
     ax.add_patch(plt.Circle((1.0, 1.0), 5.5, color='green', fill=False, linestyle='--'))
 
     plt.xlim(-5, 7)
@@ -185,6 +195,7 @@ def fun_costo(p):
     plt.close()
 
     return costo
+
 
 if __name__ == "__main__":
 
@@ -198,66 +209,62 @@ if __name__ == "__main__":
     puntos=tray_obj.puntos_trayectoria_circular(num_puntos)
     
     puntos_opt=[]
-    nums_rand=[]
-    n=1.7
     
-   
+    # Rellenamos el vector inicial en modo Polar (r, z)
     for i in range(len(puntos)):
         x=puntos[i][0]
         y=puntos[i][1]
         z=puntos[i][2]
         
+        dx = x - 1.0
+        dy = y - 1.0
+        r = mt.sqrt(dx**2 + dy**2)
+        theta = mt.atan2(dy, dx)
+        angulos_base.append(theta)
+        
         # Agregamos ruido aleatorio seguro para que la trayectoria inicie "extraña"
-        # y veamos cómo el optimizador la arregla hacia un círculo
         if i%2==0:
-            dx = x - 1.0
-            dy = y - 1.0
-            r = mt.sqrt(dx**2 + dy**2)
-            theta = mt.atan2(dy, dx)
-            
-            # Variamos el radio y el ángulo aleatoriamente
             r += np.random.uniform(-1.0, 1.0)
-            # Aseguramos que se mantenga dentro del margen seguro (2.3 a 5.4)
-            # para no causar penalizaciones de validación en la iteración 1
             r = np.clip(r, 2.3, 5.4)
-            theta += np.random.uniform(-0.5, 0.5)
+            z += np.random.uniform(-0.1, 0.1)
+            z = np.clip(z, 0.5, 1.0)
             
-            x = 1.0 + r * mt.cos(theta)
-            y = 1.0 + r * mt.sin(theta)
-            
-        puntos_opt.append([x, y, z])
+        puntos_opt.append([r, z])
 
-    puntos3d=np.array(puntos_opt)
-    wp_in=np.ravel(puntos3d)
+    puntos2d=np.array(puntos_opt)
+    wp_in=np.ravel(puntos2d)
     
-    print(f" optimizando con COBYLA... ")
-    # COBYLA es mucho más agresivo e inteligente para problemas de muchas variables.
-    # 'rhobeg' es el tamaño del paso inicial (0.5 metros), lo que garantiza que explore
-    # cambios más grandes desde el principio.
-    resultado=minimize(fun_costo, wp_in, method="COBYLA", options={'rhobeg': 0.5, 'maxiter':250, 'disp':True})
+    print(f" Optimizando con Differential Evolution (2 variables/pto)... ")
+    
+    limites=[]
+    for j in range(len(puntos_opt)):
+        limites.append((1.2, 5.5))  # R limite
+        limites.append((0.5, 1.0))  # Z limite
+        
+    # popsize=3 para asegurar cruces pero sin que tarde una eternidad, maxiter=10
+    resultado=differential_evolution(fun_costo, limites, x0=wp_in, maxiter=10, popsize=3, disp=True, polish=False)
+    
     print("\n")
-    print(f"RESULTADO:{np.reshape(resultado.x,(-1,3))}")
+    print(f"RESULTADO FINAL (Polar):{np.reshape(resultado.x,(-1,2))}")
     
-
     plt.plot(range(1, len(costos) + 1), costos, marker='o')
     plt.xlabel("Iteraciones")
     plt.ylabel("Costo (Error)")
     plt.title("Convergencia")
     plt.grid(True)
     plt.savefig(ruta_convergencia)
-    plt.show()
+    # plt.show() # Opcional: mostrar la gráfica al final
 
-    ty_opt=np.reshape(resultado.x,(-1,3)).tolist()
+    ty_opt=np.reshape(resultado.x,(-1,2)).tolist()
 
-    # Recalculamos el yaw final para guardar la misión completa en 4D
+    # Recalculamos a Cartesianas para guardar la misión completa en 3D
     wp_final = []
-    for w in ty_opt:
-        x = w[0]
-        y = w[1]
-        z = w[2]
-        # dx = 1.0 - x
-        # dy = 1.0 - y
-        # yaw = mt.atan2(dy, dx)
+    for i, w in enumerate(ty_opt):
+        r = w[0]
+        z = w[1]
+        theta = angulos_base[i]
+        x = 1.0 + r * mt.cos(theta)
+        y = 1.0 + r * mt.sin(theta)
         wp_final.append([x, y, z])
 
     x_opt = [w[0] for w in wp_final]
@@ -282,7 +289,8 @@ if __name__ == "__main__":
     plt.title("Trayectoria Final Optimizada")
     ruta_trayectoria_final = os.path.join(ruta_base, "trayectoria_final.png")
     plt.savefig(ruta_trayectoria_final)
-    plt.show()
+    # plt.show() # Opcional: mostrar
+    
     diccionario={
         "waypoints":wp_final
     }

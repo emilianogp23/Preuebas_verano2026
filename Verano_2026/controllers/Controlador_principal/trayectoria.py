@@ -8,11 +8,11 @@ class control_trayectoria:
         self.fov=0.87
         ladox=4.5 #0.4
         ladoy=4.5
-        ladoz=1.7
+        ladoz=1.5
         self.altura_vuelo=ladoz/2
         self.perimetro=2*(ladox+ladoy)
         self.area=(ladox*ladoy)
-        self.d= 3.4 #radio de trayectoria circular
+        self.d= 2.0 #radio de trayectoria circular
 
 
         self.posx=1.0   #posicion del obj x

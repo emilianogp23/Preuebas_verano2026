@@ -22,12 +22,22 @@ class YoloDetector:
         self.clases_aceptadas = ["person", "bottle", "cup", "vase", "fire hydrant", "sports ball"]
         #cv2.namedWindow(self.window_name, cv2.WINDOW_AUTOSIZE)
         self.ruta_fotos = os.path.join(dir_actual, "fotos_capturadas")
+        self.ruta_debug=os.path.join(dir_actual,"fotos_debug")
+        os.makedirs(self.ruta_debug, exist_ok=True)
+        
+        for f in os.listdir(self.ruta_fotos):
+            os.remove(os.path.join(self.ruta_fotos, f))
+        for f in os.listdir(self.ruta_debug):
+            os.remove(os.path.join(self.ruta_debug, f))
+
         
 
     def imagenes_capturadas(self):
+        
         self.mejores_puntajes=[]
         img=os.path.join(self.ruta_fotos,f"*.png")
         nombres=glob.glob(img)
+        
         if len(nombres)==0:
             print("No se encontraron imagenes")
             return -100.0
@@ -41,7 +51,7 @@ class YoloDetector:
                 continue
             img_width=img_np.shape[1]
             img_height=img_np.shape[0]
-            puntaje=self.process_image(img_np, img_width, img_height, 0.87)
+            puntaje=self.process_image(img_np, img_width, img_height, 0.87,n)
             
             # Penalizar fuertemente si no hay detecciones en la foto
             if puntaje == 0.0:
@@ -49,17 +59,15 @@ class YoloDetector:
                 
             self.mejores_puntajes.append(puntaje)
         
-        # En lugar de promediar, SUMAMOS todos los puntajes. 
-        # Asi el optimizador es recompensado por cada foto adicional que logre capturar al humano,
-        # y es fuertemente penalizado por cada foto en la que falte.
         if len(self.mejores_puntajes) > 0:
-            puntaje_final = sum(self.mejores_puntajes)
+            puntaje_final = sum(self.mejores_puntajes)/len(self.mejores_puntajes)
         else:
             puntaje_final = -100.0
             
         return puntaje_final
 
-    def process_image(self, img_data, img_width, img_height, fov):
+    def process_image(self, img_data, img_width, img_height, fov,n_foto):
+        img_debug=img_data.copy()
         if  img_data is None:
             return 0.0 
         img_bgr=img_data
@@ -114,7 +122,7 @@ class YoloDetector:
                 porc = (altura_obj / altura) * 100.0
                 
                 # Evaluacion de altura de objeto (Deseado: 60% de la altura de la imagen)
-                error_altura = abs(porc - 60.0)
+                error_altura = abs(porc - 80.0)
                 # 5.0 puntos si es perfecto (error 0). 
                 # Si el error es 40% (ej. el objeto ocupa 20% o 100%), restamos 10 puntos -> puntaje -5.0
                 puntaje_altura = 5.0 - (error_altura / 40.0) * 10.0
@@ -144,6 +152,15 @@ class YoloDetector:
 
                 if puntaje_act > puntaje or puntaje == 0:
                     puntaje = puntaje_act
+
+                cv2.rectangle(img_debug, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+                cv2.circle(img_debug, (int(punto_medio_obj), int(punto_medio_obj_v)), 5, (0, 0, 255), -1)
+                cv2.circle(img_debug,(int(img_width/2), int(img_height/2)),5,(255,0,0),-1)
+                cv2.putText(img_debug, f"Score: {puntaje_act:.2f}", (int(x1), int(y1)-10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+        cv2.imwrite(os.path.join(self.ruta_debug,os.path.basename(n_foto)), img_debug)
+            
+                
+                
 
                 # if y1>borde_vertical and y2<img_height-borde_vertical:
                 #     foto_buena=True
