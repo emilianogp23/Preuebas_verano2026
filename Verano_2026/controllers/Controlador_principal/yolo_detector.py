@@ -29,23 +29,10 @@ class YoloDetector:
         self.window_name = window_name
         self.clases_aceptadas = ["person", "bottle", "cup", "vase", "fire hydrant", "sports ball"]
         #cv2.namedWindow(self.window_name, cv2.WINDOW_AUTOSIZE)
-<<<<<<< HEAD
-        self.ruta_fotos = os.path.join(dir_actual, "fotos_capturadas")
-        self.ruta_debug=os.path.join(dir_actual,"fotos_debug")
-        os.makedirs(self.ruta_debug, exist_ok=True)
-        os.makedirs(self.ruta_fotos, exist_ok=True)
-
-    def limpiar_fotos(self):
-        for f in os.listdir(self.ruta_fotos):
-            os.remove(os.path.join(self.ruta_fotos, f))
-        for f in os.listdir(self.ruta_debug):
-            os.remove(os.path.join(self.ruta_debug, f))
-=======
         self.ruta_fotos = os.path.join(ruta_resultados, "fotos_capturadas")
         self.ruta_debug=os.path.join(ruta_resultados,"fotos_debug")
         os.makedirs(self.ruta_debug,mode=0o777, exist_ok=True)
         os.makedirs(self.ruta_fotos,mode=0o777, exist_ok=True)
->>>>>>> e4447da (Pruebas optimizacion y limpieza de codigo)
 
     def limpiar_fotos(self):
         if os.path.exists(self.ruta_fotos) is False:
