@@ -76,7 +76,13 @@ dir_controlador = os.path.dirname(os.path.abspath(__file__))
 ruta_base = os.path.abspath(os.path.join(dir_controlador, "..", ".."))
 ruta = os.path.join(ruta_base, "mision.json")
 ruta2 = os.path.join(ruta_base, "reporte_vuelo.json")
-ruta_fotos = os.path.join(dir_controlador, "fotos_capturadas")
+ruta_resultados=os.path.join(ruta_base, "Resultados")
+if not os.path.exists(ruta_resultados):
+    os.makedirs(ruta_resultados)
+
+ruta_fotos = os.path.join(ruta_resultados, "fotos_capturadas")
+ruta_debug = os.path.join(ruta_resultados, "fotos_debug")
+
 try:
     with open(ruta, 'r') as f:
         datos=json.load(f)
@@ -274,8 +280,6 @@ while robot.step(timestep) != -1:
     #3.Altitud y yaw 
     com_z=pid_obj.control_altitud(z_des, z, dt)
 
-
-
     #4.Mezcla de motores
     vel_m1,vel_m2,vel_m3,vel_m4=pid_obj.vel_motores(com_y,com_x,com_yaw,com_z)
     m1.setVelocity(-vel_m1)
@@ -283,11 +287,3 @@ while robot.step(timestep) != -1:
     m3.setVelocity(-vel_m3)
     m4.setVelocity(vel_m4)
     
-
-    #print(odom)
-    '''print(f"x: {pos_act[0]}, y: {pos_act[1]}, z: {pos_act[2]}")
-    print(f"vx_act: {vx_act}, vy_act: {vy_act}")
-    print(f"vx_des: {vx_des}, vy_des: {vy_des}")
-    print(puntos[0])'''
-
-# Enter here exit cleanup code.

@@ -5,6 +5,8 @@ import math
 from ultralytics import YOLO
 import os 
 import glob
+import shutil
+
 
 class YoloDetector:
     def __init__(self, model_path="yolov8n.pt", window_name="Drone Camera"):
@@ -17,10 +19,17 @@ class YoloDetector:
                 model_path_base = os.path.abspath(os.path.join(dir_actual, "..", "..", model_path))
                 if os.path.exists(model_path_base):
                     model_path = model_path_base
+
+        ruta_base = os.path.abspath(os.path.join(dir_actual, "..", ".."))
+        ruta_resultados=os.path.join(ruta_base, "Resultados")
+        if not os.path.exists(ruta_resultados):
+            os.makedirs(ruta_resultados)
+
         self.model = YOLO(model_path)
         self.window_name = window_name
         self.clases_aceptadas = ["person", "bottle", "cup", "vase", "fire hydrant", "sports ball"]
         #cv2.namedWindow(self.window_name, cv2.WINDOW_AUTOSIZE)
+<<<<<<< HEAD
         self.ruta_fotos = os.path.join(dir_actual, "fotos_capturadas")
         self.ruta_debug=os.path.join(dir_actual,"fotos_debug")
         os.makedirs(self.ruta_debug, exist_ok=True)
@@ -31,11 +40,25 @@ class YoloDetector:
             os.remove(os.path.join(self.ruta_fotos, f))
         for f in os.listdir(self.ruta_debug):
             os.remove(os.path.join(self.ruta_debug, f))
+=======
+        self.ruta_fotos = os.path.join(ruta_resultados, "fotos_capturadas")
+        self.ruta_debug=os.path.join(ruta_resultados,"fotos_debug")
+        os.makedirs(self.ruta_debug,mode=0o777, exist_ok=True)
+        os.makedirs(self.ruta_fotos,mode=0o777, exist_ok=True)
+>>>>>>> e4447da (Pruebas optimizacion y limpieza de codigo)
 
+    def limpiar_fotos(self):
+        if os.path.exists(self.ruta_fotos) is False:
+            os.makedirs(self.ruta_fotos,mode=0o777)
+        else:
+            img=glob.glob(os.path.join(self.ruta_fotos,f"*.png"))
+            for r in img:
+                os.remove(r)
         
-
+        if os.path.exists(self.ruta_debug) is False:
+            os.makedirs(self.ruta_debug)
+        
     def imagenes_capturadas(self):
-        
         self.mejores_puntajes=[]
         img=os.path.join(self.ruta_fotos,f"*.png")
         nombres=glob.glob(img)
@@ -158,32 +181,8 @@ class YoloDetector:
                 cv2.circle(img_debug,(int(img_width/2), int(img_height/2)),5,(255,0,0),-1)
                 cv2.putText(img_debug, f"Score: {puntaje_act:.2f}", (int(x1), int(y1)-10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
         cv2.imwrite(os.path.join(self.ruta_debug,os.path.basename(n_foto)), img_debug)
-            
-                
-                
+        #print(f"Guardando en {os.path.join(self.ruta_debug,os.path.basename(n_foto))}")
 
-                # if y1>borde_vertical and y2<img_height-borde_vertical:
-                #     foto_buena=True
-                #     altura=img_height
-                #     altura_obj=y2-y1
-                #     porc=(altura_obj/altura)*100
-                    
-                #     # Evaluacion de altura de objeto
-                #     error_altura = abs(porc - 70.0)
-                #     # Tolerancia más amplia
-                #     puntaje_altura = max(0.0, 5.0 - (error_altura / 10.0))
-                #     puntaje_act += puntaje_altura
-                     
-                #     # Evaluacion de centrado horizontal 
-                #     error_centrado = abs(punto_medio_obj - punto_medio_img)
-                #     puntaje_centrado = max(0.0, 5.0 - (error_centrado / (img_width / 15.0)))
-                #     puntaje_act += puntaje_centrado
-                    
-                #     if puntaje_act>puntaje:
-                #         puntaje=puntaje_act
-                
-                # else:
-                #     foto_buena=False
 
         return puntaje
 
