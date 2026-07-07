@@ -136,6 +136,7 @@ print("Carpeta limpia ")
 
 #Variables para captura de fotos
 contador_fotos=0
+posicion_inicial_real=[past_x,past_y,past_z]
 ps_ini=[past_x,past_y,past_z]
 espacio_fotos=1.0 #metros
 
@@ -213,7 +214,7 @@ while robot.step(timestep) != -1:
         apagar_motores(m1,m2,m3,m4)
         reporte_vuelo={
             "t_vuelo":t_vuelo,
-            "pos_inicial":pos_act,
+            "pos_inicial":posicion_inicial_real,
             "pos_final":pos_act,
             "puntos":waypoints,
             "tiempo_total":t_act

@@ -11,9 +11,12 @@ import matplotlib.pyplot as plt
 import shutil
 import os 
 from scipy.optimize import differential_evolution
+import csv
 
 # Rutas dinámicas
 dir_controlador = os.path.dirname(os.path.abspath(__file__))
+dir_actual = os.path.dirname(os.path.abspath(__file__))
+ruta_historial = os.path.join(dir_actual, "historial_evaluaciones.csv")
 ruta_base = os.path.abspath(os.path.join(dir_controlador, "..", ".."))
 
 # Determinar ruta de Webots
@@ -41,37 +44,33 @@ tray_obj = control_trayectoria()
 contador=0
 costos=[]
 
-# Array global para guardar los angulos base fijos de la trayectoria circular
-angulos_base = []
+# Ya no usamos angulos_base globales para forzar la trayectoria circular
+# angulos_base = []
 
 def fun_costo(p):
-    global contador, angulos_base
+    global contador
     contador+=1
-    print(f"ITERACION {contador}")
+    print(f"EVALUACION {contador}")
     peso=3.2
 
-    # 1. Reconstruir a partir del vector p (ahora contiene [r0, z0, r1, z1, ...])
-    # Como son 2 variables (radio y Z) por punto
-    wp_polar = np.reshape(p, (-1, 2)).tolist()
+    # 1. Reconstruir a partir del vector p (ahora contiene [x0, y0, x1, y1, ...])
+    # Como son 2 variables (x, y) por punto
+    wp_xy = np.reshape(p, (-1, 2)).tolist()
 
     wp = []
     h=0.0 #Penalizacion limites de volumen
     penalizacion_suavidad = 0.0
+    
+    ALTURA_FIJA = 0.55
 
-    for i, polar in enumerate(wp_polar):
-        r = polar[0]
-        z = polar[1]
-        theta = angulos_base[i]
+    for i, xy in enumerate(wp_xy):
+        x = xy[0]
+        y = xy[1]
+        z = ALTURA_FIJA
         
-        x = 1.0 + r * mt.cos(theta)
-        y = 1.0 + r * mt.sin(theta)
+        # Calcular radio real actual para restricciones
+        r = mt.sqrt((x - 1.0)**2 + (y - 1.0)**2)
 
-        # Restricciones en Z
-        if z <0.5:
-            h+=abs(0.5-z)*500.0
-        elif z>1.0:
-            h+=abs(1.0-z)*500.0
-        
         # Restricciones en R (aunque los limites del optimizador ya evitan esto, lo dejamos por seguridad)
         if r<1.2:
             h+=abs(1.2-r)*500.0
@@ -80,13 +79,12 @@ def fun_costo(p):
 
         # Penalización por cambios bruscos (Suavidad)
         if i > 0:
-            r_prev = wp_polar[i-1][0]
-            z_prev = wp_polar[i-1][1]
-            # Si cambia mucho el radio o la altura entre un waypoint y el siguiente
-            if abs(r - r_prev) > 1.5:
-                penalizacion_suavidad += (abs(r - r_prev) - 1.5) * 100.0
-            if abs(z - z_prev) > 0.4:
-                penalizacion_suavidad += (abs(z - z_prev) - 0.4) * 100.0
+            x_prev = wp_xy[i-1][0]
+            y_prev = wp_xy[i-1][1]
+            dist_prev = mt.sqrt((x - x_prev)**2 + (y - y_prev)**2)
+            # Penalizar si la distancia entre waypoints es muy grande (salto brusco)
+            if dist_prev > 2.5:
+                penalizacion_suavidad += (dist_prev - 2.5) * 100.0
             
         wp.append([x, y, z])
 
@@ -125,14 +123,18 @@ def fun_costo(p):
             px = x1 + t * dx
             py = y1 + t * dy
             dist_seg = mt.sqrt((px - cx)**2 + (py - cy)**2)
-            if dist_seg < 1.2:
-                h += abs(1.2 - dist_seg) * 500.0
+            if dist_seg < 1.15:
+                h += abs(1.15 - dist_seg) * 500.0
 
     if h>0:
       ptj=peso*(-100.0)
       costo=-ptj+h+penalizacion_distancia+penalizacion_suavidad
       costos.append(costo)
       print(f"Posicion invalida: {contador} - Costo: {costo:.2f}")
+      
+      with open(ruta_historial, mode='a', newline='') as file:
+          writer = csv.writer(file)
+          writer.writerow([contador, costo] + np.ravel(wp_xy).tolist())
       return costo 
     
     # 2. Escribir 'mision.json'
@@ -143,6 +145,7 @@ def fun_costo(p):
         json.dump(diccionario, f)
     
     # 3. Llamar a Webots (subprocess)
+    detector.limpiar_fotos()
     comando=[webots_path, "--mode=fast","--no-rendering","--minimize", "--batch", ruta_mundo]
     print("SIMULACION")
     subprocess.run(comando)
@@ -169,6 +172,10 @@ def fun_costo(p):
     #tiempo de vuelo, puntaje 
     print(f"Tiempo de vuelo: {tiempo_total:.2f} , Distancia teorica: {distancia_teorica:.2f} , puntaje: {puntaje:.1f}, costo: {costo:.2f}  , |puntos obtenidos: {ptj:.2f}|")
   
+    with open(ruta_historial, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([contador, costo] + np.ravel(wp_xy).tolist())
+
     x_vals = [w[0] for w in wp]
     y_vals = [w[1] for w in wp]
     z_vals=[w[2] for w in wp]
@@ -210,61 +217,71 @@ if __name__ == "__main__":
     
     puntos_opt=[]
     
-    # Rellenamos el vector inicial en modo Polar (r, z)
+    # Rellenamos el vector inicial en modo Cartesiano (x, y)
     for i in range(len(puntos)):
         x=puntos[i][0]
         y=puntos[i][1]
-        z=puntos[i][2]
-        
-        dx = x - 1.0
-        dy = y - 1.0
-        r = mt.sqrt(dx**2 + dy**2)
-        theta = mt.atan2(dy, dx)
-        angulos_base.append(theta)
         
         # Agregamos ruido aleatorio seguro para que la trayectoria inicie "extraña"
         if i%2==0:
-            r += np.random.uniform(-1.0, 1.0)
-            r = np.clip(r, 2.3, 5.4)
-            z += np.random.uniform(-0.1, 0.1)
-            z = np.clip(z, 0.5, 1.0)
+            x += np.random.uniform(-0.3, 0.3)
+            y += np.random.uniform(-0.3, 0.3)
             
-        puntos_opt.append([r, z])
+        puntos_opt.append([x, y])
 
     puntos2d=np.array(puntos_opt)
     wp_in=np.ravel(puntos2d)
     
-    print(f" Optimizando con Differential Evolution (2 variables/pto)... ")
+    print(f" Optimizando con COBYLA (2 variables (x,y)/pto, altura fija en {ALTURA_FIJA})... ")
     
-    limites=[]
-    for j in range(len(puntos_opt)):
-        limites.append((1.2, 5.5))  # R limite
-        limites.append((0.5, 1.0))  # Z limite
+    # Inicializar el archivo CSV para el historial
+    with open(ruta_historial, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        # Crear los encabezados: Evaluacion, Costo, x0, y0, x1, y1...
+        encabezados = ["Evaluacion", "Costo"]
+        for i in range(len(wp_in)//2):
+            encabezados.extend([f"x{i}", f"y{i}"])
+        writer.writerow(encabezados)
+
+    # Restricciones para COBYLA: (x-1)^2 + (y-1)^2 >= 1.2^2  y  (x-1)^2 + (y-1)^2 <= 5.5^2
+    restricciones = []
+    # Generar funciones usando cierres (closures) seguros
+    def crear_restriccion_min(idx):
+        return lambda p: (p[idx] - 1.0)**2 + (p[idx+1] - 1.0)**2 - 1.2**2
+    def crear_restriccion_max(idx):
+        return lambda p: 5.5**2 - ((p[idx] - 1.0)**2 + (p[idx+1] - 1.0)**2)
         
-    # popsize=3 para asegurar cruces pero sin que tarde una eternidad, maxiter=10
-    resultado=differential_evolution(fun_costo, limites, x0=wp_in, maxiter=10, popsize=3, disp=True, polish=False)
+    for j in range(0, len(wp_in), 2):
+        restricciones.append({'type': 'ineq', 'fun': crear_restriccion_min(j)})
+        restricciones.append({'type': 'ineq', 'fun': crear_restriccion_max(j)})
+
+    # Ejecutar COBYLA
+    resultado = minimize(fun_costo, x0=wp_in, method='COBYLA', constraints=restricciones, options={'maxiter': 50, 'disp': True})
     
     print("\n")
-    print(f"RESULTADO FINAL (Polar):{np.reshape(resultado.x,(-1,2))}")
+    print(f"RESULTADO FINAL (XY):\n{np.round(np.reshape(resultado.x, (-1, 2)), 2)}")
     
-    plt.plot(range(1, len(costos) + 1), costos, marker='o')
-    plt.xlabel("Iteraciones")
+    # Graficar la mejor convergencia (costo mínimo hasta cada iteración)
+    mejores_costos = np.minimum.accumulate(costos)
+    plt.plot(range(1, len(mejores_costos) + 1), mejores_costos, marker='o', color='blue', label='Mejor Costo')
+    plt.plot(range(1, len(costos) + 1), costos, color='lightgray', alpha=0.5, label='Costo Evaluado')
+    plt.xlabel("Evaluaciones")
     plt.ylabel("Costo (Error)")
-    plt.title("Convergencia")
+    plt.title("Convergencia del Optimizador")
+    plt.legend()
     plt.grid(True)
     plt.savefig(ruta_convergencia)
     # plt.show() # Opcional: mostrar la gráfica al final
 
-    ty_opt=np.reshape(resultado.x,(-1,2)).tolist()
+    ty_opt=np.reshape(resultado.x, (-1, 2)).tolist()
 
     # Recalculamos a Cartesianas para guardar la misión completa en 3D
     wp_final = []
-    for i, w in enumerate(ty_opt):
-        r = w[0]
-        z = w[1]
-        theta = angulos_base[i]
-        x = 1.0 + r * mt.cos(theta)
-        y = 1.0 + r * mt.sin(theta)
+    ALTURA_FIJA = 0.75
+    for i, xy in enumerate(ty_opt):
+        z = ALTURA_FIJA
+        x = xy[0]
+        y = xy[1]
         wp_final.append([x, y, z])
 
     x_opt = [w[0] for w in wp_final]
