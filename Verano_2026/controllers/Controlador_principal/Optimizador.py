@@ -12,7 +12,7 @@ import shutil
 import os 
 from scipy.optimize import differential_evolution
 import csv
-from graficas import Graficar_trayectoria
+from graficas import Graficar_trayectoria,graficas_finales
 
 
                                 #--------------------- Rutas archivos ---------------------#
@@ -67,7 +67,7 @@ detector=YoloDetector()
 tray_obj = control_trayectoria()
 contador=0
 costos=[]
-altura=0.52
+altura=0.47
                                 #--------------------- Funcion costo ---------------------#
 def fun_costo(waypointsrt):
     global contador
@@ -219,10 +219,11 @@ def fun_costo(waypointsrt):
     return costo
 
 if __name__ == "__main__":
+  
 
-    altura=0.52
-
-   
+    altura=0.47
+    rmin=1.2
+    rmax=4.5
         
     num_puntos=tray_obj.puntos_necesarios()
     puntos=tray_obj.puntos_trayectoria_circular(num_puntos)
@@ -239,10 +240,7 @@ if __name__ == "__main__":
         if i%2==0:
             x += np.random.uniform(-0.3, 0.3)
             y += np.random.uniform(-0.3, 0.3)
-            x += np.random.uniform(-0.3, 0.3)
-            y += np.random.uniform(-0.3, 0.3)
             
-        puntos_opt.append([x, y])
         puntos_opt.append([x, y])
 
     puntos2d=np.array(puntos_opt)
@@ -271,35 +269,35 @@ if __name__ == "__main__":
         restricciones.append({'type': 'ineq', 'fun': crear_restriccion_max(j)})
 
     # Ejecutar COBYLA
-    resultado = minimize(fun_costo, x0=wp_in, method='COBYLA', constraints=restricciones, options={'maxiter': 80, 'disp': True})
+    resultado = minimize(fun_costo, x0=wp_in, method='COBYLA', constraints=restricciones, options={'maxiter': 8, 'disp': True})
     
     print("\n")
     print(f"RESULTADO FINAL (XY):\n{np.round(np.reshape(resultado.x, (-1, 2)), 2)}")
     print(f"RESULTADO FINAL (XY):\n{np.round(np.reshape(resultado.x, (-1, 2)), 2)}")
     
-    # Graficar la mejor convergencia (costo mínimo hasta cada iteración)
-    mejores_costos = np.minimum.accumulate(costos)
-    plt.plot(range(1, len(mejores_costos) + 1), mejores_costos, marker='o', color='blue', label='Mejor Costo')
-    plt.plot(range(1, len(costos) + 1), costos, color='lightgray', alpha=0.5, label='Costo Evaluado')
-    plt.xlabel("Evaluaciones")
-    # Graficar la mejor convergencia (costo mínimo hasta cada iteración)
-    mejores_costos = np.minimum.accumulate(costos)
-    plt.plot(range(1, len(mejores_costos) + 1), mejores_costos, marker='o', color='blue', label='Mejor Costo')
-    plt.plot(range(1, len(costos) + 1), costos, color='lightgray', alpha=0.5, label='Costo Evaluado')
-    plt.xlabel("Evaluaciones")
-    plt.ylabel("Costo (Error)")
-    plt.title("Convergencia del Optimizador")
-    plt.legend()
-    plt.title("Convergencia del Optimizador")
-    plt.legend()
-    plt.grid(True)
-    plt.savefig(ruta_convergencia)
-    # plt.show() # Opcional: mostrar la gráfica al final
+    # # Graficar la mejor convergencia (costo mínimo hasta cada iteración)
+    # mejores_costos = np.minimum.accumulate(costos)
+    # plt.plot(range(1, len(mejores_costos) + 1), mejores_costos, marker='o', color='blue', label='Mejor Costo')
+    # plt.plot(range(1, len(costos) + 1), costos, color='lightgray', alpha=0.5, label='Costo Evaluado')
+    # plt.xlabel("Evaluaciones")
+    # # Graficar la mejor convergencia (costo mínimo hasta cada iteración)
+    # mejores_costos = np.minimum.accumulate(costos)
+    # plt.plot(range(1, len(mejores_costos) + 1), mejores_costos, marker='o', color='blue', label='Mejor Costo')
+    # plt.plot(range(1, len(costos) + 1), costos, color='lightgray', alpha=0.5, label='Costo Evaluado')
+    # plt.xlabel("Evaluaciones")
+    # plt.ylabel("Costo (Error)")
+    # plt.title("Convergencia del Optimizador")
+    # plt.legend()
+    # plt.title("Convergencia del Optimizador")
+    # plt.legend()
+    # plt.grid(True)
+    # plt.savefig(ruta_convergencia)
+    # # plt.show() # Opcional: mostrar la gráfica al final
 
     ty_opt=np.reshape(resultado.x, (-1, 2)).tolist()
     ty_opt=np.reshape(resultado.x, (-1, 2)).tolist()
 
-    # Recalculamos a Cartesianas para guardar la misión completa en 3D
+    # # Recalculamos a Cartesianas para guardar la misión completa en 3D
     wp_final = []
 
     for i, xy in enumerate(ty_opt):
@@ -308,29 +306,31 @@ if __name__ == "__main__":
         y = xy[1]
         wp_final.append([x, y, z])
 
-    x_opt = [w[0] for w in wp_final]
-    y_opt = [w[1] for w in wp_final]
-    x_opt.append(x_opt[0])
-    y_opt.append(y_opt[0])
+    graficas_finales(costos,resultado,ruta_convergencia,ruta_resultados,altura,rmin,rmax)
 
-    plt.figure(figsize=(8,8))
-    plt.plot(x_opt, y_opt, marker='o', color='magenta', linewidth=1, label='Ruta Óptima')
-    plt.text(-5.0,5.0,f"Costo total: {resultado.fun:.2f} ",fontsize=12, ha='left', va='bottom', color='red')
-    for x, y in zip(x_opt[:-1], y_opt[:-1]):
-        plt.text(x, y, f"({x:.1f}, {y:.1f})", fontsize=6, ha='left', va='bottom', color='black')
-    plt.plot(1.0, 1.0, marker='*', color='gold', markersize=15, label='Objeto') 
-    ax = plt.gca()
-    ax.add_patch(plt.Circle((1.0, 1.0), 1.5, color='red', fill=False, linestyle='--'))
-    ax.add_patch(plt.Circle((1.0, 1.0), 5.5, color='green', fill=False, linestyle='--'))
+    # x_opt = [w[0] for w in wp_final]
+    # y_opt = [w[1] for w in wp_final]
+    # x_opt.append(x_opt[0])
+    # y_opt.append(y_opt[0])
 
-    plt.xlim(-5, 7)
-    plt.ylim(-5, 7)
-    plt.grid(True)
-    plt.legend()
-    plt.title("Trayectoria Final Optimizada")
-    ruta_trayectoria_final = os.path.join(ruta_base, "trayectoria_final.png")
-    plt.savefig(ruta_trayectoria_final)
-    # plt.show() # Opcional: mostrar
+    # plt.figure(figsize=(8,8))
+    # plt.plot(x_opt, y_opt, marker='o', color='magenta', linewidth=1, label='Ruta Óptima')
+    # plt.text(-5.0,5.0,f"Costo total: {resultado.fun:.2f} ",fontsize=12, ha='left', va='bottom', color='red')
+    # for x, y in zip(x_opt[:-1], y_opt[:-1]):
+    #     plt.text(x, y, f"({x:.1f}, {y:.1f})", fontsize=6, ha='left', va='bottom', color='black')
+    # plt.plot(1.0, 1.0, marker='*', color='gold', markersize=15, label='Objeto') 
+    # ax = plt.gca()
+    # ax.add_patch(plt.Circle((1.0, 1.0), 1.5, color='red', fill=False, linestyle='--'))
+    # ax.add_patch(plt.Circle((1.0, 1.0), 5.5, color='green', fill=False, linestyle='--'))
+
+    # plt.xlim(-5, 7)
+    # plt.ylim(-5, 7)
+    # plt.grid(True)
+    # plt.legend()
+    # plt.title("Trayectoria Final Optimizada")
+    # ruta_trayectoria_final = os.path.join(ruta_base, "trayectoria_final.png")
+    # plt.savefig(ruta_trayectoria_final)
+    # # plt.show() # Opcional: mostrar
     
     diccionario={
         "waypoints":wp_final
