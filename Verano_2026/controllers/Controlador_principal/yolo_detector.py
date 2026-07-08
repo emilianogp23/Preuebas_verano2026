@@ -134,7 +134,7 @@ class YoloDetector:
                 porc = (altura_obj / altura) * 100.0
                 
                 # Evaluacion de altura de objeto (Deseado: 60% de la altura de la imagen)
-                error_altura = abs(porc - 60.0)
+                error_altura = abs(porc - 70.0)
                 # 5.0 puntos si es perfecto (error 0). 
                 # Suavizamos la penalización
                 puntaje_altura = 5.0 - (error_altura / 40.0) * 5.0

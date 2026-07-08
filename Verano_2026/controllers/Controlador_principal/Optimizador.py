@@ -93,9 +93,6 @@ def fun_costo(waypointsrt):
         # Calcular radio real actual para restricciones
         r = mt.sqrt((x - 1.0)**2 + (y - 1.0)**2)
 
-        # Calcular radio real actual para restricciones
-        r = mt.sqrt((x - 1.0)**2 + (y - 1.0)**2)
-
         # Restricciones en R (aunque los limites del optimizador ya evitan esto, lo dejamos por seguridad)
         if r<radio_min:
             h+=abs(radio_min-r)*500.0
@@ -104,12 +101,6 @@ def fun_costo(waypointsrt):
 
         # Penalización por cambios bruscos (Suavidad)
         if i > 0:
-            x_prev = wp_xy[i-1][0]
-            y_prev = wp_xy[i-1][1]
-            dist_prev = mt.sqrt((x - x_prev)**2 + (y - y_prev)**2)
-            # Penalizar si la distancia entre waypoints es muy grande (salto brusco)
-            if dist_prev > 2.5:
-                penalizacion_suavidad += (dist_prev - 2.5) * 100.0
             x_prev = wp_xy[i-1][0]
             y_prev = wp_xy[i-1][1]
             dist_prev = mt.sqrt((x - x_prev)**2 + (y - y_prev)**2)
@@ -156,18 +147,12 @@ def fun_costo(waypointsrt):
             dist_seg = mt.sqrt((px - cx)**2 + (py - cy)**2)
             if dist_seg < 1.15:
                 h += abs(1.15 - dist_seg) * 500.0
-            if dist_seg < 1.15:
-                h += abs(1.15 - dist_seg) * 500.0
 
     if h>0:
       ptj=peso*(-100.0)
       costo=-ptj+h+penalizacion_distancia+penalizacion_suavidad
       costos.append(costo)
       print(f"Posicion invalida: {contador} - Costo: {costo:.2f}")
-      
-      with open(ruta_historial, mode='a', newline='') as file:
-          writer = csv.writer(file)
-          writer.writerow([contador, costo] + np.ravel(wp_xy).tolist())
       
       with open(ruta_historial, mode='a', newline='') as file:
           writer = csv.writer(file)
@@ -199,10 +184,15 @@ def fun_costo(waypointsrt):
     # 5. Retornar el costo
     puntaje=detector.imagenes_capturadas()
     
-    ptj=peso*puntaje
+    # PESOS para gradiente continuo
+    peso_fotos = 3.2
+    peso_dist = 0.5
+    peso_tiempo = 0.2
     
-    # El costo ahora se basa en el puntaje, volumen e irregularidades (ruidos)
-    costo = -ptj+h+penalizacion_distancia+penalizacion_suavidad
+    ptj = peso_fotos * puntaje
+    
+    # El costo ahora incluye la distancia y el tiempo para que COBYLA tenga un gradiente que seguir
+    costo = -ptj + h + penalizacion_distancia + penalizacion_suavidad + (peso_dist * distancia_teorica) + (peso_tiempo * tiempo_total)
     
     costos.append(costo)
 
@@ -269,7 +259,7 @@ if __name__ == "__main__":
         restricciones.append({'type': 'ineq', 'fun': crear_restriccion_max(j)})
 
     # Ejecutar COBYLA
-    resultado = minimize(fun_costo, x0=wp_in, method='COBYLA', constraints=restricciones, options={'maxiter': 8, 'disp': True})
+    resultado = minimize(fun_costo, x0=wp_in, method='COBYLA', constraints=restricciones, options={'maxiter': 250, 'disp': True})
     
     print("\n")
     print(f"RESULTADO FINAL (XY):\n{np.round(np.reshape(resultado.x, (-1, 2)), 2)}")
@@ -295,7 +285,6 @@ if __name__ == "__main__":
     # # plt.show() # Opcional: mostrar la gráfica al final
 
     ty_opt=np.reshape(resultado.x, (-1, 2)).tolist()
-    ty_opt=np.reshape(resultado.x, (-1, 2)).tolist()
 
     # # Recalculamos a Cartesianas para guardar la misión completa en 3D
     wp_final = []
@@ -306,7 +295,7 @@ if __name__ == "__main__":
         y = xy[1]
         wp_final.append([x, y, z])
 
-    graficas_finales(costos,resultado,ruta_convergencia,ruta_resultados,altura,rmin,rmax)
+    graficas_finales(costos,resultado,ruta_convergencia,ruta_base,altura,rmin,rmax)
 
     # x_opt = [w[0] for w in wp_final]
     # y_opt = [w[1] for w in wp_final]

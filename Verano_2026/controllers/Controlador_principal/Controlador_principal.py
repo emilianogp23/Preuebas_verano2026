@@ -188,34 +188,56 @@ while robot.step(timestep) != -1:
         dist_recorrida=0.0  
     
     if indice_wp < len(puntos):
-        destino=list(puntos[indice_wp][:3])
         
-        if funcionando==False:
-            distancia_total = mt.sqrt((destino[0] - x)**2 + (destino[1] - y)**2)
-            t_vuelo = max(distancia_total / vel_dron, 4.0) 
-            #dist_yaw=normalizar_angulos(destino[3]-pos_act[3])
-            #destino[3]=pos_act[3]+dist_yaw
-
-            a0,a1,a2,a3=Generador.generar_tray(pos_act,destino,t_vuelo)
-            t_inicial=t_act
-            funcionando=True
+        if funcionando == False:
+            from scipy.interpolate import CubicSpline
+            
+            # 1. Creamos la lista de puntos iniciando desde la posición ACTUAL del dron
+            distancias = [0.0]
+            puntos_limpios = [pos_act] 
+            
+            # 2. Unimos todos los waypoints midiendo la distancia entre ellos
+            for i in range(len(puntos)):
+                p_prev = puntos_limpios[-1]
+                p_act = puntos[i][:3]  # Asegurar que solo tomamos X,Y,Z
+                
+                # Calculamos la distancia con el punto anterior
+                d = mt.sqrt((p_act[0]-p_prev[0])**2 + (p_act[1]-p_prev[1])**2 + (p_act[2]-p_prev[2])**2)
+                
+                # Evitamos duplicados o puntos demasiado juntos (causan error matemático en el spline)
+                if d > 0.01: 
+                    distancias.append(distancias[-1] + d)
+                    puntos_limpios.append(p_act)
+                    
+            distancia_total_ruta = distancias[-1]
+            
+            # Tiempo estimado para recorrer TODO el circuito a velocidad constante
+            t_vuelo = max(distancia_total_ruta / vel_dron, 1.0)
+            
+            # 3. Generar el Spline Cúbico Continuo (la curva suave)
+            # Esto interpola todos los puntos en un solo trazo sin frenadas
+            spline_trayectoria = CubicSpline(distancias, puntos_limpios)
+            
+            t_inicial = t_act
+            funcionando = True
         
+        # 4. Calcular dónde debería estar el dron en este instante de tiempo
+        t_tray = t_act - t_inicial
         
-        t_tray=min(t_act-t_inicial,t_vuelo)
-        pos_des,vel_des=Generador.eval(a0,a1,a2,a3,t_tray,t_vuelo)
-        x_des=pos_des[0]
-        y_des=pos_des[1]
-        z_des=pos_des[2]
-        w_des=normalizar_angulos(yd)
-        # w_des=normalizar_angulos(pos_des[3])
-        #w_des=mt.atan2(pos_y-pos_act[1],pos_x-pos_act[0])
-        #w_des=yaw
+        # Distancia teórica que el dron debió haber recorrido a velocidad constante
+        distancia_actual = min(t_tray * vel_dron, distancia_total_ruta)
         
-
-        dist_destino=mt.sqrt((destino[0]-pos_act[0])**2+(destino[1]-pos_act[1])**2)
-        if dist_destino < 0.2 or ((t_act - t_inicial) > (t_vuelo + 3.0)):
-            indice_wp += 1
-            funcionando=False
+        # Evaluar la curva en esa distancia
+        pos_des = spline_trayectoria(distancia_actual)
+        x_des = float(pos_des[0])
+        y_des = float(pos_des[1])
+        z_des = float(pos_des[2])
+        w_des = normalizar_angulos(yd) 
+        
+        # 5. Condición para terminar la simulación (cuando el tiempo total se acaba)
+        # Le damos 1.0 segundo extra para asegurar que llegó al último punto
+        if t_tray > t_vuelo + 1.0: 
+            indice_wp = len(puntos) # Esto forzará que pase al 'else' de abajo y apague motores
     else:
         apagar_motores(m1,m2,m3,m4)
         reporte_vuelo={

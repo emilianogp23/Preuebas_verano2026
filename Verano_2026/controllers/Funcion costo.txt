@@ -1,0 +1,3 @@
+Para el calculo de la funcion de costo en la vision por medo de yolo se tomaron en cuenta tres factores, el error de centrado, error de escala y un error de margenes;
+
+Para el calculo del error de altura se desea que el objeto al menos 

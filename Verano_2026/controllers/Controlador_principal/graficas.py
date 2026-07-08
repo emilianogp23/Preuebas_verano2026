@@ -80,7 +80,7 @@ def graficas_finales(costos,resultado,ruta_convergencia,ruta_base,altura,rmin,rm
     plt.plot(x_opt, y_opt, marker='x', color='blue', label='Ruta')
     lista="Coordenadas: \n"
     ax = plt.gca()
-    for i, (x, y, z) in enumerate(zip(x_opt[:-1], y_opt[:-1])):
+    for i, (x, y) in enumerate(zip(x_opt[:-1], y_opt[:-1])):
         #plt.text(x+0.15, y+0.15, f"({x:.1f}, {y:.1f},{z:.1f})", fontsize=8, ha='right', va='center', color='black')
         plt.text(x+0.15, y+0.15, f"P{i}", fontsize=8, color='black',)
         lista+=f"P{i}: ({x:.1f}, {y:.1f},{altura})\n"
