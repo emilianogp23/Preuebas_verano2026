@@ -1,3 +1,128 @@
-Para el calculo de la funcion de costo en la vision por medo de yolo se tomaron en cuenta tres factores, el error de centrado, error de escala y un error de margenes;
+Para el calculo de la funcion de costo en la vision por medo de yolo se tomaron en cuenta tres factores, el error de centrado, error de escala y una penalizacion por margenes;
 
-Para el calculo del error de altura se desea que el objeto al menos 
+
+#Error de altura
+Para el calculo del error de altura se desea que el objeto cubra al menos el 70% de la altura de la imagen, si es mayor o menor se penaliza, 
+esto para asegurar que el objeto este en el encuadre de la camara del dron. 
+
+El error se calcula sacando la diferencia absoluta entre el porcentaje que se desea cubrir y el porcentaje real cubierto por el objeto, 
+esta operacion otorga un maximo de 5 pts de calificacion la cual va bajando de forma lineal conforme cambia la diferencia de escala. 
+
+error de altura=e_h
+Puntaje de altura=P_h
+
+
+e_h=|porcentaje altura - 70.0| 
+P_h = 5.0 - ( e_h / 40.0 ) * 5.0
+
+#Error de centrado
+El error de centrado se calcula de manera independiente para el eje horizontal y vertical, el error en el eje horizontal se calcula obteniendo las coordenadas 
+de la bounding box que detecta YOLO del objeto y sacando su punto medio, ese punto medio se resta del punto medio de la imagen y se divide entre el ancho de la imagen 
+multiplicado por 2, esto nos da el error relativo.
+
+
+e_cx=error de centrado horizontal
+P_cx=Puntaje de centrado horizontal
+Pm_o=punto medio del objeto
+Pm_i=punto medio de la imagen
+
+
+Pm_o= (x2 + x1) / 2
+Pm_i = ancho de la imagen  / 2
+
+
+e_cx = |Pm_o - Pm_i|
+P_cx = 5.0 - (e_cx / Pm_i) * 5.0
+
+e_cy=error de centrado vertical
+P_cy=Puntaje de centrado vertical
+Pm_oy=punto medio vertical del objeto
+Pm_iy=punto medio vertical de la imagen
+
+
+Pm_oy= (y2 + y1) / 2
+Pm_iy = altura de la imagen  / 2
+
+
+e_cy = |Pm_oy - Pm_iy|
+P_cy = 5.0 - (e_cy / Pm_iy) * 5.0
+
+
+Puntaje vision=P_h + P_cx + P_cy
+
+Para evitar que la imagen capturada del objeto chocara con los bordes se le agrega una penalizacion al puntaje final, 
+si la bounding box del objeto choca con el borde se le restan 2 puntos a la calificacion final, si no queda igual. 
+
+Este puntaje final es el que se pasa al script que hace el calculo de la funcion de costo de optimizacion, este puntaje se multiplica por un pesoy se le pone un signo negativo,
+esto para que al momento de integrarla a la funcion de costo final tenga mas impacto el tomar fotos buenas y se penalice el tomar fotos malas sumando en lugar de restar. 
+
+Tambien se agregaron otras penalizacioones independientes a la vision:
+    - Penalizacion por limites de volumen 
+    - Penalizacion por suavidad de la ruta 
+    - Penalizacion por distancia entre waypoints
+
+#Penalizacion por limites de volumen 
+
+El objeto sabemos en que coordenada esta, se proponmen dos radios, uno interior y uno exterior, estos circulos lo quehacen es crear el espacio permitido de vuelo del dron, 
+creando un volumen de dona donde esta permitido volar, si se propone una trayectoria fuera de esos limites de le agrega una penalizacion grande. 
+
+Si el punto propuesto es menor al radio minimo permitido se penaliza con la siguiente operacion: 
+
+
+centro x = 1.0
+centor y = 1.0
+
+r=(sqrt(((punto x - centro x)^2)+(punto y - centro y)^2))
+
+h=Penalizacion por volumen 
+h=(radio minimo - r)*500
+
+Si el punto propuesto es mayor al radio maximo permimtido se penaliza de la siguiente forma:
+h=(r-radio maximo)*500
+
+Despues se aplico una penalizacion por cambios bruscos en la trayectoria, esto para evitar que las fotos capturadas fueran tomadas en angulos muy diferentres.
+Esto se aplica evaluando la distancia euclidiana entre los waypoints,  si la distancia entre un punto actual  y el punto anterior es mayor a una distancia predeterminada
+que actualmentre se maneja en 2.5m  se suma una penalizacion que es proporcional a cuanto se paso, y luego se multiplica por 100 para que eleve el costo.
+
+d_p = distancia entre punto anterior y punto actual
+p_t=Penalizacion por salto en trayectoria
+
+d_p=sqrt(((punto x - punto anterior x)^2)+((punto y - punto anterior y)^2))
+
+Si d_p > 2.5 
+    p_t = (d_p-2.5)*100
+
+#Penalizacion por ditancia entre waypoints
+Se implemento esta penalizacion para evitar que se juntaran mucho los puntos lo cual afectaria para la reconstruccion se restringe la proximidad entre puntos. 
+Aqui se calcula la distancia euclidiana entre todos los pares de puntos propuestos y se le penaliza si es menor a una distancia propuesta, que actualmente se maneja en 0.5 m.
+
+d_pt=Distancia entre puntos propuestos
+d_pt=sqrt(((punto x i - punto x j)^2)+((punto y i - punto y j)^2))
+
+Si d_pt < 0.5
+    p_pt= (0.5-d_pt)*500
+
+
+Para evitar que la trayectoria lineal entre 2 puntos validos atravesara el objeto o entrara a la zona prohibida se le agrega una penalizacion, 
+esto se calcula evaluando la distancia minima desde el centro hacia los segmentos de recta que unen los puntpos de la ruta.
+
+Se define el centro como 1.0, 1.0 y el radio prohibido como 1.15m, esta distancia se calcula para todos los segmentos de recta que unen los puntos 
+propuestos, si la trayectoria en linea recta entre 2 puntos pasa a menos de 1.15m del centro se suma penalizacion a la penalizacion volumentriaca (h).
+
+Punto a evaluar=(x,y)
+Centro=(1.0,1.0)
+Radio prohibido=1.15m
+Se evalua la distancia minima desde el centro del obstaculo hacia los segmentos de recta que unen los puntos
+
+#Costo total
+Todos los puntajes obtenidos se suman para dar el costo final, adicionalmente se tiene el tiempo de vuelo y la distancia de el recorrido,
+estos datos se multiplican por pesos pequeños, esto para darle información adicional al optimizador y que pueda encontrar mejores soluciones.
+
+C_t= -(Puntaje vision * 3.2) + h + penalizacion_distancia + penalizacion_suavidad+(tiempo_vuelo*0.2)+(distancia_teorica*0.5)
+
+
+##
+circulo
+Cuadro 
+Arrncar con ciruclo e implementarle ruido
+

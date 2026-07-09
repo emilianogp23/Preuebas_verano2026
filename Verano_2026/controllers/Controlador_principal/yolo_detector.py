@@ -95,7 +95,6 @@ class YoloDetector:
                 #Relacion entre altura objeto y foto 
                 #Centrado horizontal 
                 
-                # Ignorar detecciones con baja confianza (menor al 40%)
                 if conf < 0.4:
                     continue
                     
@@ -108,11 +107,11 @@ class YoloDetector:
                 # Estimacion de tamaño y distancia
                 bbox_height = float(y2 - y1)
                 if bbox_height <= 0:
-                    bbox_height = 1.0 # Prevenir division por cero
+                    bbox_height = 1.0 
                 
                 # Alturas estimadas reales (metros)
                 if class_name == "person":
-                    real_height = 1.70 # Humano
+                    real_height = 1.70 
                 else:
                     real_height = 1.0 
                     
@@ -132,17 +131,14 @@ class YoloDetector:
                 altura = img_height
                 altura_obj = y2 - y1
                 porc = (altura_obj / altura) * 100.0
-                
-                # Evaluacion de altura de objeto (Deseado: 60% de la altura de la imagen)
+            
                 error_altura = abs(porc - 70.0)
-                # 5.0 puntos si es perfecto (error 0). 
-                # Suavizamos la penalización
                 puntaje_altura = 5.0 - (error_altura / 40.0) * 5.0
                     
                 # Evaluacion de centrado horizontal 
                 error_centrado = abs(punto_medio_obj - punto_medio_img)
-                max_err_h = img_width / 2.0
-                puntaje_centrado = 5.0 - (error_centrado / max_err_h) * 5.0
+                max_err_c = img_width / 2.0
+                puntaje_centrado = 5.0 - (error_centrado / max_err_c) * 5.0
 
                 # Evaluacion de centrado vertical
                 punto_medio_img_v = img_height / 2.0
@@ -154,7 +150,6 @@ class YoloDetector:
                 # Sumar los 3 puntajes
                 puntaje_act = puntaje_altura + puntaje_centrado + puntaje_centrado_v
                 
-                # Penalización extra si de plano toca los márgenes
                 margen_h = img_width * 0.05
                 margen_v = img_height * 0.05
                 if x1 <= margen_h or x2 >= img_width - margen_h or y1 <= margen_v or y2 >= img_height - margen_v:
