@@ -6,20 +6,16 @@
 - `controllers/Controlador_principal/yolo_detector.py`: Evalúa y califica las fotografías capturadas durante la misión.
 - `controllers/Controlador_principal/Controlador_principal.py`: Archivo de control lógico y de movimiento del dron dentro de Webots 
 
-Antes de lanzar el optimizador, puedes elegir qué trayectoria inicial probar.
 En el archivo Optimizador es necesario elegir la trayectoria inicial, en la variable puntos 3d hay que seleccionar el tipo de trayectoria sera la inicial. 
     # Opciones disponibles: "circular", "cuadrada", "Random", "circulo_ruido", "cuadrado_ruido"
 Al igual que en archivo Trayectoria hasta abajo en el main la varibale "tray" hay que modificarla y poner el nombre de la trayctoria deseada.
-
-
-Puedes cambiar `"cuadrada"` por la opción que prefieras para ver cómo el algoritmo organiza la ruta.
 
 ## Ejecutar el código
 Ejecutar el archivo de optimización directamente.
 
 ### Proceso de Ejecución
 1. El script generará la trayectoria inicial solicitada.
-2. Comenzará a probar rutas mediante simulaciones iterativas en Webots. 
+2. Comenzará a probar rutas mediante simulaciones en Webots. 
 3. Se imprimirán en consola datos por cada evaluación: `Tiempo de vuelo`, `Distancia teórica`, `Puntaje de fotos` y `Costo final`.
 4. Si la ruta entra en áreas prohibidas, rebasa los límites exteriores o los saltos entre puntos son muy bruscos, la consola mostrará **`Posición inválida`** junto con el costo.
 5. Al finalizar las evaluaciones, el dron ejecutará una simulación final abriendo la interfaz de Webots visiblemente.

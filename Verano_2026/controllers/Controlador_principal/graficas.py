@@ -51,7 +51,7 @@ def graficas_finales(costos,resultado,ruta_convergencia,ruta_base,altura,rmin,rm
     mejores_costos = np.minimum.accumulate(costos)
     plt.plot(range(1, len(mejores_costos) + 1), mejores_costos, marker='o', color='blue', label='Mejor Costo')
     plt.plot(range(1, len(costos) + 1), costos, color='lightgray', alpha=0.5, label='Costo Evaluado')
-    plt.ylim(bottom=min(costos)-10, top=20)
+    # plt.ylim(bottom=min(costos)-10, top=20)
     plt.xlabel("Evaluaciones")
     plt.ylabel("Costo")
     plt.title("Convergencia del Optimizador")
@@ -78,12 +78,13 @@ def graficas_finales(costos,resultado,ruta_convergencia,ruta_base,altura,rmin,rm
 
     plt.figure(figsize=(6,6))
     plt.plot(x_opt, y_opt, marker='x', color='blue', label='Ruta')
-    lista="Coordenadas: \n"
+    lista="Coordenadas (x, y, z, yaw): \n"
     ax = plt.gca()
     for i, (x, y) in enumerate(zip(x_opt[:-1], y_opt[:-1])):
+        yaw = np.arctan2(1.0 - y, 1.0 - x)
         #plt.text(x+0.15, y+0.15, f"({x:.1f}, {y:.1f},{z:.1f})", fontsize=8, ha='right', va='center', color='black')
         plt.text(x+0.15, y+0.15, f"P{i}", fontsize=8, color='black',)
-        lista+=f"P{i}: ({x:.1f}, {y:.1f},{altura})\n"
+        lista+=f"P{i}: ({x:.1f}, {y:.1f}, {altura:.1f}, {yaw:.1f})\n"
     lista+="\n"
     caja=dict(boxstyle='round', facecolor='white', alpha=0.5,edgecolor='black')
     ax.text(1.05,0.95,lista,transform=ax.transAxes,fontsize=10,verticalalignment='top',bbox=caja)

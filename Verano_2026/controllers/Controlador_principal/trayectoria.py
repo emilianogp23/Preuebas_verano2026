@@ -12,7 +12,7 @@ class control_trayectoria:
         self.altura_vuelo=ladoz/2
         self.perimetro=2*(ladox+ladoy)
         self.area=(ladox*ladoy)
-        self.d= 2.0 #radio de trayectoria circular
+        self.d= 2.5 #radio de trayectoria circular
 
 
         self.posx=1.0   #posicion del obj x
@@ -118,7 +118,7 @@ class control_trayectoria:
     
     def trayectoria_cuadrado_r(self, numero_puntos):
         trayectoria = self.trayectoria_cuadrada(numero_puntos)
-        dr = 0.5
+        dr = 0.7
         trayectoria = self.ruido(trayectoria, dr)
         return trayectoria 
         
@@ -148,7 +148,7 @@ if __name__ == "__main__":
     # "circulo_ruido"
     # "cuadrado_ruido"
 
-    tray=trayectoria.trayectoria_inicial(numero_puntos,"cuadrada")
+    tray=trayectoria.trayectoria_inicial(numero_puntos,"circular")
     for i, punto in enumerate(tray):
         print(f"Punto {i+1}: X={punto[0]:.2f}, Y={punto[1]:.2f}, Z={punto[2]:.2f}")
 
