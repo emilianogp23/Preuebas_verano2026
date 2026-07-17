@@ -3,7 +3,7 @@ import numpy as np
 import json 
 import subprocess 
 import math as mt
-from scipy.optimize import minimize
+from scipy.optimize import minimize,differential_evolution
 from trayectoria import control_trayectoria
 import sys
 from yolo_detector import YoloDetector
@@ -50,7 +50,11 @@ path = [
     "/usr/local/webots/msys64/mingw64/bin/webots.exe",
     "/usr/local/webots/bin/webots.exe",
     "/usr/local/webots/msys64/mingw64/bin/webotsw.exe",
-    "/usr/local/webots/bin/webotsw.exe"
+    "/usr/local/webots/bin/webotsw.exe",
+    "C:/Program Files/Webots/msys64/mingw64/bin/webots.exe",
+    "C:/Program Files/Webots/msys64/mingw64/bin/webotsw.exe",
+    "C:/Program Files/Webots/bin/webots.exe",
+    "C:/Program Files/Webots/bin/webotsw.exe"
 ]
 for r in path:
     if os.path.exists(r):
@@ -234,7 +238,7 @@ if __name__ == "__main__":
     with open(ruta_historial, mode='w', newline='') as file:
         writer = csv.writer(file)
         # Crear los encabezados
-        encabezados = ["Evaluacion", "Costo", "Puntaje_YOLO", "Penalizacion_Obs", "Penalizacion_Dist", "Penalizacion_dmax", "Distancia_Teorica", "Tiempo_Vuelo"]
+        encabezados = ["Evaluacion", "Costo", "Puntaje_vision", "restriccion_area", "Penalizacion_dmin", "Penalizacion_dmax", "Distancia_vuelo", "Tiempo_Vuelo"]
         for i in range(len(wp_in)//2):
             encabezados.extend([f"x{i}", f"y{i}", f"z{i}", f"yaw{i}"])
         writer.writerow(encabezados)
@@ -252,8 +256,26 @@ if __name__ == "__main__":
         restricciones.append({'type': 'ineq', 'fun': crear_restriccion_min(j)})
         restricciones.append({'type': 'ineq', 'fun': crear_restriccion_max(j)})
 
-    # Ejecutar COBYLA
-    resultado = minimize(fun_costo, x0=wp_in, method='COBYLA', constraints=restricciones, options={'maxiter': 120, 'disp': True})
+    # Símplex Nelder-Mead
+    N = len(wp_in)
+    simplex = np.zeros((N + 1, N))
+    simplex[0] = wp_in
+    for i in range(N):
+        p = np.copy(wp_in)
+        p[i] += 1.0 
+        simplex[i + 1] = p
+
+    #Limites differential evolution
+    lmin=-4.5
+    lmax=6.5
+    lims=[(lmin,lmax) for _ in range(len(wp_in))]
+    
+    # Ejecutar differential evolution
+    #resultado = differential_evolution(fun_costo, lims, strategy='best1bin', maxiter=15, popsize=3, tol=0.01, mutation=(0.5, 1), recombination=0.7, seed=None, disp=True, polish=True, workers=1, updating='immediate')
+    
+
+    # Ejecutar SLSQP
+    resultado = minimize(fun_costo, x0=wp_in, method='SLSQP', bounds=lims, constraints=restricciones, options={'maxiter': 100, 'disp': True,'eps':0.2})
     
     print(f"\n--- COSTO FINAL: {resultado.fun:.2f} ---")
     

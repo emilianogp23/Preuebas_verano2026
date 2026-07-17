@@ -1,6 +1,6 @@
 #VRML_SIM R2025a utf8
 
-EXTERNPROTO "../protos/Crazyflie.proto"
+EXTERNPROTO "c:/Users/marco/Desktop/Verano2026/Preuebas_verano2026/Verano_2026/protos/Crazyflie.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
@@ -17,8 +17,8 @@ WorldInfo {
   basicTimeStep 40
 }
 Viewpoint {
-  orientation -0.3172853322872766 -0.41820463381513856 0.8511374167376842 4.991300289495425
-  position -12.68634049045141 19.787480241350288 10.18622666415312
+  orientation -0.2635784793284092 0.08850232874244299 0.9605694785084982 2.488285601870292
+  position 8.208074721946732 -5.482516109276078 5.328643858487503
   follow "Crazyflie"
 }
 TexturedBackground {
@@ -26,8 +26,10 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Crazyflie {
-  translation -2 -2 0.0649902
-  rotation 6.959880338775085e-16 9.925218109913464e-17 1 1.5770703061004254
+  hidden linearVelocity_0 2.545710084790962e-17 -1.650123299054578e-17 4.478101317451077e-06
+  hidden angularVelocity_0 1.2323164443381614e-15 -3.430279677857238e-16 -2.54687779068042e-17
+  translation -2 -2 0.06498932499489939
+  rotation 2.0843590951786543e-16 -7.020446422399894e-16 1 1.5770703061004254
   controller "Controlador_principal"
   supervisor TRUE
   extensionSlot [
@@ -36,7 +38,7 @@ Crazyflie {
   ]
 }
 RectangleArena {
-  floorSize 20 20
+  floorSize 12 12
   floorAppearance Parquetry {
     type "light strip"
   }

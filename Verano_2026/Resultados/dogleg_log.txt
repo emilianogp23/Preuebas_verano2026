@@ -1,0 +1,35 @@
+Registro de optimzación de Dogleg
+
+ITERACIÓN DOGLEG 1
+Norma gradiente : 1.842409
+Costo actual      : -19.671799
+Costo nuevo       : -19.721697
+rho               : 1.478208
+Radio confianza   : 1.000000
+Paso: ACEPTADO
+
+ITERACIÓN DOGLEG 2
+Norma gradiente : 2.981122
+Costo actual      : -20.848755
+Costo nuevo       : -21.338299
+rho               : 2.483239
+Radio confianza   : 2.000000
+Paso: ACEPTADO
+
+ITERACIÓN DOGLEG 3
+Norma gradiente : 30.371168
+Costo actual      : -26.661245
+Costo nuevo       : -27.793018
+rho               : -0.046914
+Radio confianza   : 0.500000
+
+ITERACIÓN DOGLEG 4
+Norma gradiente : 30.371168
+Costo actual      : -26.661245
+Costo nuevo       : -27.793018
+rho               : 0.271907
+Radio confianza   : 0.500000
+Paso: ACEPTADO
+
+RESULTADO FINAL
+Costo final      : -28.379997

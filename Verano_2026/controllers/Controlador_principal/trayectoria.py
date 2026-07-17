@@ -58,12 +58,16 @@ class control_trayectoria:
 
     def trayectoria_cuadrada(self, numero_puntos):
         trayectoria = []
-        l = 4.5
+        # Para respetar el radio_min de 1.8 centrado en (1.0, 1.0),
+        # hacemos el cuadrado un poco más grande para que libre el obstáculo.
+        l = 5.0
+        start_x = -1.5
+        start_y = -1.5
         aristas = [
-            (self.posx_ini, self.posy_ini),
-            (self.posx_ini + l, self.posy_ini),
-            (self.posx_ini + l, self.posy_ini + l),
-            (self.posx_ini, self.posy_ini + l)
+            (start_x, start_y),
+            (start_x + l, start_y),
+            (start_x + l, start_y + l),
+            (start_x, start_y + l)
         ]
         
         # Distancia entre puntos a lo largo del perímetro
@@ -93,7 +97,6 @@ class control_trayectoria:
         posiy=self.posy_ini
         separacion=(self.perimetro)/numero_puntos
         trayectoria=[]
-        #Posicion inicial
         dr=2.0
         trayectoria_ini=self.puntos_trayectoria_circular(numero_puntos)
         trayectoria=self.ruido(trayectoria_ini,dr)
